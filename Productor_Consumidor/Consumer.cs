@@ -11,6 +11,7 @@ namespace Productor_Consumidor
         Queue<string> queue;
         Object lockObject;
         string name;
+        public string estado;
         public Consumer(Queue<string> queue, Object lockObject, string name)
         {
             this.queue = queue;
@@ -24,13 +25,14 @@ namespace Productor_Consumidor
             string item;
             while (true)
             {
-                lock (lockObject)
+                lock (lockObject)//sustituir por roundrobin
                 {
                     if (queue.Count == 0)
                     {
                         continue;
                     }
                     item = queue.Dequeue();
+                    //estado = "Consumer " + name + "Consuming" + item;
                     Console.WriteLine(" {0} Comsuming {1}", name, item);
                 }
             }

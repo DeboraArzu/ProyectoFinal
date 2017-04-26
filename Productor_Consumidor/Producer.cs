@@ -8,6 +8,7 @@ namespace Productor_Consumidor
 {
     class Producer
     {
+        public string estado;
         Queue<string> queue;
         int productionCycleCounter;
         public Producer(Queue<string> queue)
@@ -22,6 +23,7 @@ namespace Productor_Consumidor
                 productionCycleCounter += 1;// increase counter
                 string item = "item" + productionCycleCounter;
                 queue.Enqueue(item);
+                //estado = "Producing " + item;
                 Console.WriteLine("Producing {0}", item);
             }
         }
