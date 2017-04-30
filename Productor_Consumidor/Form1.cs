@@ -27,9 +27,9 @@ namespace Productor_Consumidor
             Object lockObj = new object();
             Queue<string> queue = new Queue<string>();
             //productores
-            Producer p1 = new Producer(queue);
-            Producer p2 = new Producer(queue);
-            Producer p3 = new Producer(queue);
+            Producer p1 = new Producer(queue, output);
+            Producer p2 = new Producer(queue, output);
+            Producer p3 = new Producer(queue, output);
             //consumidores
             Consumer c1 = new Consumer(queue, lockObj, "c1");
             Consumer c2 = new Consumer(queue, lockObj, "c2");
@@ -51,12 +51,12 @@ namespace Productor_Consumidor
             tp2.Start();
             tp3.Start();
             
-
+            //holi 2.0
         }
 
         private void output_TextChanged(object sender, EventArgs e)
         {
-            //holi
+
         }
     }
 }
