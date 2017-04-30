@@ -51,12 +51,16 @@ namespace Productor_Consumidor
             tp2.Start();
             tp3.Start();
             
-            //holi 2.0
         }
 
         private void output_TextChanged(object sender, EventArgs e)
         {
          //   holi
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

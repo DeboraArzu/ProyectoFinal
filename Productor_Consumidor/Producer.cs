@@ -27,7 +27,7 @@ namespace Productor_Consumidor
                 productionCycleCounter += 1;// increase counter
                 item = "item" + productionCycleCounter;
                 queue.Enqueue(item);
-                write();
+               // write();
                 Console.WriteLine("Producing {0}", item);
             }
         }
