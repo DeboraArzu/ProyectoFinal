@@ -53,5 +53,10 @@ namespace Productor_Consumidor
             
 
         }
+
+        private void output_TextChanged(object sender, EventArgs e)
+        {
+            //holi
+        }
     }
 }

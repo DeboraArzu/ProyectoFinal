@@ -41,6 +41,7 @@
             this.output.Size = new System.Drawing.Size(319, 255);
             this.output.TabIndex = 0;
             this.output.TabStop = false;
+            this.output.TextChanged += new System.EventHandler(this.output_TextChanged);
             // 
             // Form1
             // 
