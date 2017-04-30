@@ -10,14 +10,15 @@ namespace Productor_Consumidor
     class Producer
     {
         public string estado;
+        public string id;
         Queue<string> queue;
         TextBox txt;
         string item;
         int productionCycleCounter;
-        public Producer(Queue<string> queue, TextBox txt)
+        public Producer(Queue<string> queue, string id)
         {
             this.queue = queue;
-            this.txt = txt;
+            this.id = id;
         }
 
         public void produce()
@@ -27,14 +28,11 @@ namespace Productor_Consumidor
                 productionCycleCounter += 1;// increase counter
                 item = "item" + productionCycleCounter;
                 queue.Enqueue(item);
-               // write();
-                Console.WriteLine("Producing {0}", item);
+                //esto se debe de mandar a SQL
+                //Console.WriteLine("Producing {0}", item);
+                estado = "Producer: " + id + " RUNNING " + item;
             }
-        }
-
-        public void write()
-        {
-            txt.Text = "Producing " + item;
+            estado = "Producer: " + id + "STOPPED "; 
         }
     }
 }

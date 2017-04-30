@@ -25,15 +25,20 @@ namespace Productor_Consumidor
             string item;
             while (true)
             {
-                lock (lockObject)//sustituir por roundrobin
+                lock (lockObject)
                 {
+                    //seccion critica
                     if (queue.Count == 0)
                     {
+                        // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
+                        estado = "Consumer: " + name + " SLEEP ";
                         continue;
                     }
                     item = queue.Dequeue();
                     //estado = "Consumer " + name + "Consuming" + item;
-                    Console.WriteLine(" {0} Comsuming {1}", name, item);
+                    //esto se debe de mandar a SQL
+                    //Console.WriteLine(" {0} Comsuming {1}", name, item);
+                    estado = "Consumer: " + name + " RUNNING " + item;
                 }
             }
         }

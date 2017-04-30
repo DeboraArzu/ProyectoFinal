@@ -127,7 +127,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(1178, 441);
+            this.ClientSize = new System.Drawing.Size(956, 441);
             this.Controls.Add(this.lDestino);
             this.Controls.Add(this.lOrigen);
             this.Controls.Add(this.Informacion);
