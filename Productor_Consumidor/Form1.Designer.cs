@@ -43,29 +43,31 @@
             this.btConsumer.AutoSize = true;
             this.btConsumer.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btConsumer.Location = new System.Drawing.Point(568, 59);
-            this.btConsumer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btConsumer.Margin = new System.Windows.Forms.Padding(4);
             this.btConsumer.Name = "btConsumer";
             this.btConsumer.Size = new System.Drawing.Size(129, 28);
             this.btConsumer.TabIndex = 2;
             this.btConsumer.Text = "Add Consumer";
             this.btConsumer.UseVisualStyleBackColor = true;
+            this.btConsumer.Click += new System.EventHandler(this.btConsumer_Click);
             // 
             // btproducer
             // 
             this.btproducer.AutoSize = true;
             this.btproducer.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btproducer.Location = new System.Drawing.Point(568, 132);
-            this.btproducer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btproducer.Margin = new System.Windows.Forms.Padding(4);
             this.btproducer.Name = "btproducer";
             this.btproducer.Size = new System.Drawing.Size(123, 28);
             this.btproducer.TabIndex = 3;
             this.btproducer.Text = "Add Producer";
             this.btproducer.UseVisualStyleBackColor = true;
+            this.btproducer.Click += new System.EventHandler(this.btproducer_Click);
             // 
             // Origen
             // 
             this.Origen.Location = new System.Drawing.Point(728, 62);
-            this.Origen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Origen.Margin = new System.Windows.Forms.Padding(4);
             this.Origen.Name = "Origen";
             this.Origen.Size = new System.Drawing.Size(148, 22);
             this.Origen.TabIndex = 0;
@@ -73,7 +75,7 @@
             // Destino
             // 
             this.Destino.Location = new System.Drawing.Point(728, 135);
-            this.Destino.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Destino.Margin = new System.Windows.Forms.Padding(4);
             this.Destino.Name = "Destino";
             this.Destino.Size = new System.Drawing.Size(148, 22);
             this.Destino.TabIndex = 1;
@@ -87,7 +89,6 @@
             this.Informacion.Size = new System.Drawing.Size(88, 16);
             this.Informacion.TabIndex = 5;
             this.Informacion.Text = "Informacion";
-            this.Informacion.Click += new System.EventHandler(this.label1_Click);
             // 
             // lOrigen
             // 
@@ -112,7 +113,7 @@
             // output
             // 
             this.output.Location = new System.Drawing.Point(18, 59);
-            this.output.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.output.Margin = new System.Windows.Forms.Padding(4);
             this.output.Multiline = true;
             this.output.Name = "output";
             this.output.ReadOnly = true;
@@ -120,7 +121,6 @@
             this.output.Size = new System.Drawing.Size(518, 313);
             this.output.TabIndex = 0;
             this.output.TabStop = false;
-            this.output.TextChanged += new System.EventHandler(this.output_TextChanged);
             // 
             // Form1
             // 
@@ -138,7 +138,7 @@
             this.Controls.Add(this.output);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Worker";
             this.Load += new System.EventHandler(this.Form1_Load);

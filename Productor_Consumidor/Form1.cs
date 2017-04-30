@@ -12,6 +12,14 @@ namespace Productor_Consumidor
 {
     public partial class Form1 : Form
     {
+        Object lockObj = new object();
+        Queue<string> queue = new Queue<string>();
+        int numeroC = 4;
+        int numeroP = 4;
+
+        Producer P;
+        Consumer C;
+
         public Form1()
         {
             InitializeComponent();
@@ -24,43 +32,45 @@ namespace Productor_Consumidor
 
         void main()
         {
-            Object lockObj = new object();
-            Queue<string> queue = new Queue<string>();
+           
+            ThreadPool.SetMaxThreads(6, 3);
             //productores
-            Producer p1 = new Producer(queue, output);
-            Producer p2 = new Producer(queue, output);
-            Producer p3 = new Producer(queue, output);
+            for (int i = 0; i < 3; i++)
+            {
+                P = new Producer(queue, "p" + i.ToString());
+            }
             //consumidores
-            Consumer c1 = new Consumer(queue, lockObj, "c1");
-            Consumer c2 = new Consumer(queue, lockObj, "c2");
-            Consumer c3 = new Consumer(queue, lockObj, "c3");
-
-            //threads de los consumidores
-            Thread t1 = new Thread(c1.consume);
-            Thread t2 = new Thread(c2.consume);
-            Thread t3 = new Thread(c3.consume);
-            t1.Start();
-            t2.Start();
-            t3.Start();
-            
-            //threads de los productores
-            Thread tp1 = new Thread(p1.produce);
-            Thread tp2 = new Thread(p2.produce);
-            Thread tp3 = new Thread(p3.produce);
-            tp1.Start();
-            tp2.Start();
-            tp3.Start();
-            
+            for (int i = 0; i < 3; i++)
+            {
+                C = new Consumer(queue, lockObj, "c" + i.ToString());
+            }
+        }
+        private void btConsumer_Click(object sender, EventArgs e)
+        {
+            crear(0);
         }
 
-        private void output_TextChanged(object sender, EventArgs e)
+        void crear(int tipo)
         {
-         //   holi
+            //0 para consumer
+            // 1 para producer
+            if (tipo == 0)
+            {
+                Consumer c = new Consumer(queue, lockObj, "c" + numeroC.ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(C.consume));
+                numeroC++;
+            }
+            else
+            {
+                Producer p = new Producer(queue, "P" + numeroP.ToString());
+                ThreadPool.QueueUserWorkItem(new WaitCallback(P.produce));
+                numeroP++;
+            }
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void btproducer_Click(object sender, EventArgs e)
         {
-
+            crear(1);
         }
     }
 }

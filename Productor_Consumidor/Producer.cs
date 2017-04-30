@@ -34,5 +34,22 @@ namespace Productor_Consumidor
             }
             estado = "Producer: " + id + "STOPPED "; 
         }
+
+        public void produce(Object stateInfo)
+        {
+            //test
+            while (productionCycleCounter < 100)
+            {
+                productionCycleCounter += 1;// increase counter
+                item = "item" + productionCycleCounter;
+                queue.Enqueue(item);
+                //esto se debe de mandar a SQL
+                //Console.WriteLine("Producing {0}", item);
+                Console.WriteLine("Producer: " + id + " RUNNING " + item);
+                estado = "Producer: " + id + " RUNNING " + item;
+            }
+            Console.WriteLine("Producer: " + id + "STOPPED ");
+           estado = "Producer: " + id + "STOPPED ";
+        }
     }
 }
