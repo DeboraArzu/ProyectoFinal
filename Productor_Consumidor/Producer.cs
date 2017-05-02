@@ -12,9 +12,9 @@ namespace Productor_Consumidor
         public string estado;
         public string id;
         Queue<string> queue;
-        TextBox txt;
         string item;
         int productionCycleCounter;
+        int cantidadpro = 0;
         public Producer(Queue<string> queue, string id)
         {
             this.queue = queue;
@@ -23,22 +23,13 @@ namespace Productor_Consumidor
 
         public void produce()
         {
-            while (productionCycleCounter < 100)
-            {
-                productionCycleCounter += 1;// increase counter
-                item = "item" + productionCycleCounter;
-                queue.Enqueue(item);
-                //esto se debe de mandar a SQL
-                //Console.WriteLine("Producing {0}", item);
-                estado = "Producer: " + id + " RUNNING " + item;
-            }
-            estado = "Producer: " + id + "STOPPED "; 
+           
         }
 
         public void produce(Object stateInfo)
         {
             //test
-            while (productionCycleCounter < 100)
+            while (productionCycleCounter < cantidadpro)
             {
                 productionCycleCounter += 1;// increase counter
                 item = "item" + productionCycleCounter;

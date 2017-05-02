@@ -32,8 +32,9 @@ namespace Productor_Consumidor
 
         void main()
         {
-           
-            ThreadPool.SetMaxThreads(6, 3);
+            
+
+            ThreadPool.SetMaxThreads(6, 6);
             //productores
             for (int i = 0; i < 3; i++)
             {
@@ -50,27 +51,28 @@ namespace Productor_Consumidor
             crear(0);
         }
 
+        private void btproducer_Click(object sender, EventArgs e)
+        {
+            crear(1);
+        }
+
         void crear(int tipo)
         {
             //0 para consumer
             // 1 para producer
             if (tipo == 0)
             {
-                Consumer c = new Consumer(queue, lockObj, "c" + numeroC.ToString());
+                C = new Consumer(queue, lockObj, "c" + numeroC.ToString());
                 ThreadPool.QueueUserWorkItem(new WaitCallback(C.consume));
                 numeroC++;
             }
             else
             {
-                Producer p = new Producer(queue, "P" + numeroP.ToString());
+                P = new Producer(queue, "P" + numeroP.ToString());
+                P.produce(numeroP);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(P.produce));
                 numeroP++;
             }
-        }
-
-        private void btproducer_Click(object sender, EventArgs e)
-        {
-            crear(1);
         }
     }
 }

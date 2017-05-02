@@ -38,7 +38,7 @@ namespace Productor_Consumidor
                     //estado = "Consumer " + name + "Consuming" + item;
                     //esto se debe de mandar a SQL
                     //Console.WriteLine(" {0} Comsuming {1}", name, item);
-                    estado = "Consumer: " + name + " RUNNING " + item;
+                    estado = "Consumer: " + name + " RUNNING, " + item;
                 }
             }
         }
