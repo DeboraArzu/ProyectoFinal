@@ -16,17 +16,17 @@ namespace Productor_Consumidor
         protected int id;
         protected bool working;
         protected Thread thread;
-      //  protected SQL cmd;
         public int total, used;
+        public string type;
 
-        public PCWorker(int id, int total)//, SQL cmd
+        public PCWorker(int id, int total, string type)//, SQL cmd
         {
             this.id = id;
-            //this.cmd = cmd;
             this.total = total;
             this.used = 0;
             this.thread = new Thread(this.work);
-            this.thread.Name = "Thread " + this.id;
+            this.thread.Name = "Thread " + type + " "+ this.id;
+            this.type = type;
             this.thread.Start();
         }
 
