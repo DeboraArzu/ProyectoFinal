@@ -45,12 +45,12 @@ namespace Productor_Consumidor
         }
         private void btConsumer_Click(object sender, EventArgs e)
         {
-            crear(0);
+
         }
 
         private void btproducer_Click(object sender, EventArgs e)
         {
-            crear(1);
+
         }
 
         void crear(int tipo)
@@ -70,6 +70,38 @@ namespace Productor_Consumidor
                 ThreadPool.QueueUserWorkItem(new WaitCallback(P.produce));
                 numeroP++;
             }
+        }
+
+        private void btiniciar_Click(object sender, EventArgs e)
+        {
+            numeroC = Convert.ToInt32(txtcons.Text);
+            numeroP = Convert.ToInt32(txtprod.Text);
+            dtproducers.Rows.Add(numeroP);
+            dtconsumers.Rows.Add(numeroC);
+            // Worker w1 = new Worker(1, "Consumer");
+            //Worker w2 = new Worker(2, "Producer");
+            //agregar consumers
+            for (int i = 0; i < 3; i++)
+            {
+                C = new Consumer(queue, lockObj, "C1");
+                dtconsumers.Rows[i].Cells["Cname"].Value = "1";
+            }
+
+            //agregar producers
+            for (int i = 0; i < 3; i++)
+            {
+                P = new Producer(queue, "P1");
+            }
+        }
+
+        private void Agregar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btremove_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
