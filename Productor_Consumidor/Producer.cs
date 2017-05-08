@@ -21,11 +21,6 @@ namespace Productor_Consumidor
             this.id = id;
         }
 
-        public void produce()
-        {
-           
-        }
-
         public void produce(Object stateInfo)
         {
             //test

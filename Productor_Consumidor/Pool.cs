@@ -11,25 +11,35 @@ namespace Productor_Consumidor
         public List<Worker> producer;
         public List<Worker> consumer;
         int maximo;
+        int count;
         bool estado = false;
 
         public int maxSize = 6;
         //agregar comando sql
         public RoundRobin RR;
 
-        private Pool(int producerparam, int consumerparam, int maximo)
+        private Pool(int producerparam, int consumerparam)
         {
             RR = new RoundRobin();
             this.producer = new List<Worker>();
             this.consumer = new List<Worker>();
-            this.maximo = maximo;
+            this.maximo = 6;
         }
 
         bool agregar()
         {
+            if (count < maximo)
+            {
+                count++;
+            }
             return estado;
         }
 
+        bool eliminiar()
+        {
+            count--;
+            return estado;
+        }
         //agregar intrucciones de SQL
     }
 }

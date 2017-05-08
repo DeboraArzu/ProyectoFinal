@@ -14,8 +14,8 @@ namespace Productor_Consumidor
     {
         Object lockObj = new object();
         Queue<string> queue = new Queue<string>();
-        int numeroC = 4;
-        int numeroP = 4;
+        int numeroC = 0;
+        int numeroP = 0;
 
         Producer P;
         Consumer C;
@@ -32,18 +32,15 @@ namespace Productor_Consumidor
 
         void main()
         {
-            
-
-            ThreadPool.SetMaxThreads(6, 6);
             //productores
             for (int i = 0; i < 3; i++)
             {
-                P = new Producer(queue, "p" + i.ToString());
+                //P = new Producer(queue, "p" + i.ToString());
             }
             //consumidores
             for (int i = 0; i < 3; i++)
             {
-                C = new Consumer(queue, lockObj, "c" + i.ToString());
+                //C = new Consumer(queue, lockObj, "c" + i.ToString());
             }
         }
         private void btConsumer_Click(object sender, EventArgs e)

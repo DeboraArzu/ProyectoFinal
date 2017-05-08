@@ -7,24 +7,18 @@ using System.Threading;
 
 namespace Productor_Consumidor
 {
-    interface Worker
-    {
-        void work();
-    }
-    public abstract class PCWorker : Worker
+    public class Worker 
     {
         protected int id;
         protected bool working;
         protected Thread thread;
-        public int total, used;
+        public int used;
         public string type;
 
-        public PCWorker(int id, int total, string type)//, SQL cmd
+        public Worker(int id, string type)
         {
             this.id = id;
-            this.total = total;
             this.used = 0;
-            this.thread = new Thread(this.work);
             this.thread.Name = "Thread " + type + " "+ this.id;
             this.type = type;
             this.thread.Start();
@@ -44,8 +38,6 @@ namespace Productor_Consumidor
         {
             return thread.ThreadState.ToString();
         }
-
-        public abstract void work();
 
         public void remove()
         {
