@@ -1,6 +1,6 @@
 ﻿namespace Productor_Consumidor
 {
-    partial class Form1
+    partial class fmWorker
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -34,9 +34,6 @@
             this.lOrigen = new System.Windows.Forms.Label();
             this.lDestino = new System.Windows.Forms.Label();
             this.dtproducers = new System.Windows.Forms.DataGridView();
-            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtconsumers = new System.Windows.Forms.DataGridView();
             this.Cname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cestado = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,6 +45,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtprod = new System.Windows.Forms.TextBox();
             this.txtcons = new System.Windows.Forms.TextBox();
+            this.cpName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cpEstado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cpCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dtproducers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtconsumers)).BeginInit();
             this.SuspendLayout();
@@ -81,6 +81,7 @@
             // lOrigen
             // 
             this.lOrigen.AutoSize = true;
+            this.lOrigen.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.lOrigen.Location = new System.Drawing.Point(621, 55);
             this.lOrigen.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lOrigen.Name = "lOrigen";
@@ -91,6 +92,7 @@
             // lDestino
             // 
             this.lDestino.AutoSize = true;
+            this.lDestino.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.lDestino.Location = new System.Drawing.Point(621, 137);
             this.lDestino.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lDestino.Name = "lDestino";
@@ -104,32 +106,14 @@
             this.dtproducers.AllowUserToDeleteRows = false;
             this.dtproducers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtproducers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Name,
-            this.Estado,
-            this.Cantidad});
+            this.cpName,
+            this.cpEstado,
+            this.cpCantidad});
+            this.dtproducers.GridColor = System.Drawing.SystemColors.MenuText;
             this.dtproducers.Location = new System.Drawing.Point(17, 59);
             this.dtproducers.Name = "dtproducers";
-            this.dtproducers.ReadOnly = true;
             this.dtproducers.Size = new System.Drawing.Size(378, 150);
             this.dtproducers.TabIndex = 8;
-            // 
-            // Name
-            // 
-            this.Name.HeaderText = "cName";
-            this.Name.Name = "Name";
-            this.Name.ReadOnly = true;
-            // 
-            // Estado
-            // 
-            this.Estado.HeaderText = "Cestado";
-            this.Estado.Name = "Estado";
-            this.Estado.ReadOnly = true;
-            // 
-            // Cantidad
-            // 
-            this.Cantidad.HeaderText = "Ccantidad";
-            this.Cantidad.Name = "Cantidad";
-            this.Cantidad.ReadOnly = true;
             // 
             // dtconsumers
             // 
@@ -140,9 +124,9 @@
             this.Cname,
             this.Cestado,
             this.Ccantidad});
+            this.dtconsumers.GridColor = System.Drawing.SystemColors.MenuText;
             this.dtconsumers.Location = new System.Drawing.Point(17, 234);
             this.dtconsumers.Name = "dtconsumers";
-            this.dtconsumers.ReadOnly = true;
             this.dtconsumers.Size = new System.Drawing.Size(378, 150);
             this.dtconsumers.TabIndex = 9;
             // 
@@ -150,19 +134,16 @@
             // 
             this.Cname.HeaderText = "Name";
             this.Cname.Name = "Cname";
-            this.Cname.ReadOnly = true;
             // 
             // Cestado
             // 
             this.Cestado.HeaderText = "Estado";
             this.Cestado.Name = "Cestado";
-            this.Cestado.ReadOnly = true;
             // 
             // Ccantidad
             // 
             this.Ccantidad.HeaderText = "Cantidad";
             this.Ccantidad.Name = "Ccantidad";
-            this.Ccantidad.ReadOnly = true;
             // 
             // Agregar
             // 
@@ -206,6 +187,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.label1.Location = new System.Drawing.Point(434, 137);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
@@ -216,6 +198,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.label2.Location = new System.Drawing.Point(434, 55);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
@@ -241,7 +224,25 @@
             this.txtcons.TabIndex = 12;
             this.txtcons.Text = "3";
             // 
-            // Form1
+            // cpName
+            // 
+            this.cpName.HeaderText = "Name";
+            this.cpName.Name = "cpName";
+            this.cpName.ReadOnly = true;
+            // 
+            // cpEstado
+            // 
+            this.cpEstado.HeaderText = "Estado";
+            this.cpEstado.Name = "cpEstado";
+            this.cpEstado.ReadOnly = true;
+            // 
+            // cpCantidad
+            // 
+            this.cpCantidad.HeaderText = "Cantidad";
+            this.cpCantidad.Name = "cpCantidad";
+            this.cpCantidad.ReadOnly = true;
+            // 
+            // fmWorker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -262,8 +263,9 @@
             this.Controls.Add(this.Destino);
             this.Controls.Add(this.Origen);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.Name = "fmWorker";
             this.Text = "Worker";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtproducers)).EndInit();
@@ -280,9 +282,6 @@
         private System.Windows.Forms.Label lOrigen;
         private System.Windows.Forms.Label lDestino;
         private System.Windows.Forms.DataGridView dtproducers;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
         private System.Windows.Forms.DataGridView dtconsumers;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cname;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cestado;
@@ -294,6 +293,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtprod;
         private System.Windows.Forms.TextBox txtcons;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cpName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cpEstado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cpCantidad;
     }
 }
 

@@ -15,18 +15,29 @@ namespace Productor_Consumidor
         public int used;
         public string type;
 
-        public Worker(int id, string type)
+        public Worker(int id, string type, int disponible)
         {
             this.id = id;
             this.used = 0;
-            this.thread.Name = "Thread ";
+            this.thread.Name = "Thread " + type;
+            this.used = disponible;
             this.type = type;
-            this.thread.Start();
+         //   this.thread.Start();
         }
 
         public int getId()
         {
             return id;
+        }
+
+        public void setDisponible(int disponible)
+        {
+            this.used = disponible;
+        }
+
+        public int getDisponible()
+        {
+            return used;
         }
 
         public bool getWorking()

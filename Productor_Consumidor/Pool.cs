@@ -8,8 +8,8 @@ namespace Productor_Consumidor
 {
     class Pool
     {
-        public List<Worker> producer;
-        public List<Worker> consumer;
+        public List<fmWorker> producer;
+        public List<fmWorker> consumer;
         int maximo;
         int count;
         bool estado = false;
@@ -21,8 +21,8 @@ namespace Productor_Consumidor
         private Pool(int producerparam, int consumerparam)
         {
             RR = new RoundRobin();
-            this.producer = new List<Worker>();
-            this.consumer = new List<Worker>();
+            this.producer = new List<fmWorker>();
+            this.consumer = new List<fmWorker>();
             this.maximo = 6;
         }
 
