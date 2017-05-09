@@ -34,6 +34,9 @@
             this.lOrigen = new System.Windows.Forms.Label();
             this.lDestino = new System.Windows.Forms.Label();
             this.dtproducers = new System.Windows.Forms.DataGridView();
+            this.cpName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cpEstado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cpCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtconsumers = new System.Windows.Forms.DataGridView();
             this.Cname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cestado = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,9 +48,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtprod = new System.Windows.Forms.TextBox();
             this.txtcons = new System.Windows.Forms.TextBox();
-            this.cpName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cpEstado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cpCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TxtCantidad = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtproducers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtconsumers)).BeginInit();
             this.SuspendLayout();
@@ -114,6 +116,24 @@
             this.dtproducers.Name = "dtproducers";
             this.dtproducers.Size = new System.Drawing.Size(378, 150);
             this.dtproducers.TabIndex = 8;
+            // 
+            // cpName
+            // 
+            this.cpName.HeaderText = "Name";
+            this.cpName.Name = "cpName";
+            this.cpName.ReadOnly = true;
+            // 
+            // cpEstado
+            // 
+            this.cpEstado.HeaderText = "Estado";
+            this.cpEstado.Name = "cpEstado";
+            this.cpEstado.ReadOnly = true;
+            // 
+            // cpCantidad
+            // 
+            this.cpCantidad.HeaderText = "Cantidad";
+            this.cpCantidad.Name = "cpCantidad";
+            this.cpCantidad.ReadOnly = true;
             // 
             // dtconsumers
             // 
@@ -224,23 +244,21 @@
             this.txtcons.TabIndex = 12;
             this.txtcons.Text = "3";
             // 
-            // cpName
+            // label3
             // 
-            this.cpName.HeaderText = "Name";
-            this.cpName.Name = "cpName";
-            this.cpName.ReadOnly = true;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(441, 331);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 16);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Cantidad";
             // 
-            // cpEstado
+            // TxtCantidad
             // 
-            this.cpEstado.HeaderText = "Estado";
-            this.cpEstado.Name = "cpEstado";
-            this.cpEstado.ReadOnly = true;
-            // 
-            // cpCantidad
-            // 
-            this.cpCantidad.HeaderText = "Cantidad";
-            this.cpCantidad.Name = "cpCantidad";
-            this.cpCantidad.ReadOnly = true;
+            this.TxtCantidad.Location = new System.Drawing.Point(582, 325);
+            this.TxtCantidad.Name = "TxtCantidad";
+            this.TxtCantidad.Size = new System.Drawing.Size(100, 22);
+            this.TxtCantidad.TabIndex = 18;
             // 
             // fmWorker
             // 
@@ -248,6 +266,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(805, 441);
+            this.Controls.Add(this.TxtCantidad);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.btiniciar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -296,6 +316,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cpName;
         private System.Windows.Forms.DataGridViewTextBoxColumn cpEstado;
         private System.Windows.Forms.DataGridViewTextBoxColumn cpCantidad;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox TxtCantidad;
     }
 }
 

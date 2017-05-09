@@ -22,6 +22,7 @@ namespace Productor_Consumidor
         Queue<Consumer> consumidores = new Queue<Consumer>();
         Queue<Producer> productores = new Queue<Producer>();
         bool libre = true;
+        int cantidad=0;
         #endregion
         Producer P;
         Consumer C;
@@ -83,7 +84,7 @@ namespace Productor_Consumidor
                 {
                     //codigo productor
                     Producer p1 = productores.Peek();
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(p1.produce));
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(p1.produce,cantidad));
                     productores.Enqueue(p1);        //Agrega un objeto al final de Queue.
                     libre = false;
                 }
@@ -133,6 +134,7 @@ namespace Productor_Consumidor
             disponibleP = numeroP;      // para saber cuantos consumidores y productores hay
             origen = Origen.Text;
             destino = Destino.Text;     //datos para sql
+            cantidad = int.Parse(TxtCantidad.Text);
             disponibleP--;
             disponibleC--;              //manejo para saber cuantos hay disponibles
             WC.setDisponible(disponibleC);
