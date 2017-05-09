@@ -61,7 +61,7 @@ namespace Productor_Consumidor
                         estado = "Sleep ";
                         continue;
                     }
-                    if (request != 0)
+                    if (queue.Count != 0)
                     {
                         item = queue.Dequeue();
                         request--;

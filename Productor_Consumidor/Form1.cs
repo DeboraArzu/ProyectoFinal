@@ -62,7 +62,7 @@ namespace Productor_Consumidor
                 dtconsumers.Rows[idC].Cells[2].Value = C.getRequest().ToString() + "/10";
                // C.setRequest(C.getRequest() - 1);
             }
-            else if (P.getRequest() <= 0)
+            if (C.getRequest() == 0)
             {
                 //producer
                 dtconsumers.Rows[idP].Cells[1].Value = "libre";
