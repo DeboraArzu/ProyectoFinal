@@ -21,10 +21,14 @@ namespace Productor_Consumidor
             this.id = id;
         }
 
-        public void produce(Object stateInfo, int cantidad)
+        public void Cantidad(int cantidad)
+        {
+            cantidadpro = cantidad;
+        }
+        public void produce(Object stateInfo)
         {
             //test
-            while (productionCycleCounter < cantidad)
+            while (productionCycleCounter < cantidadpro)
             {
                 productionCycleCounter += 1;// increase counter
                 item = "item" + productionCycleCounter;

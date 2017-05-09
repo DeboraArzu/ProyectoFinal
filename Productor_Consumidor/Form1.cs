@@ -84,7 +84,8 @@ namespace Productor_Consumidor
                 {
                     //codigo productor
                     Producer p1 = productores.Peek();
-                  //  ThreadPool.QueueUserWorkItem(new WaitCallback(p1.produce,cantidad));
+                    p1.Cantidad(cantidad);
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(p1.produce));
                     productores.Enqueue(p1);        //Agrega un objeto al final de Queue.
                     libre = false;
                 }
