@@ -10,9 +10,9 @@ namespace Productor_Consumidor
     {
         Queue<string> queue;
         Object lockObject;
-        string name;
+        int name;
         public string estado;
-        public Consumer(Queue<string> queue, Object lockObject, string name)
+        public Consumer(Queue<string> queue, Object lockObject, int name)
         {
             this.queue = queue;
             this.lockObject = lockObject;
@@ -66,6 +66,11 @@ namespace Productor_Consumidor
                     estado = "Consumer: " + name + " RUNNING " + item;
                 }
             }
+        }
+
+        public int getID()
+        {
+            return name;
         }
     }
 }

@@ -10,12 +10,12 @@ namespace Productor_Consumidor
     class Producer
     {
         public string estado;
-        public string id;
+        public int id;
         Queue<string> queue;
         string item;
         int productionCycleCounter;
         int cantidadpro = 0; // puede usarse para otro proceso
-        public Producer(Queue<string> queue, string id)
+        public Producer(Queue<string> queue, int id)
         {
             this.queue = queue;
             this.id = id;
@@ -31,7 +31,7 @@ namespace Productor_Consumidor
             while (productionCycleCounter < cantidadpro)
             {
                 productionCycleCounter += 1;// increase counter
-                item = "item" + productionCycleCounter;
+                item = "item " + productionCycleCounter;
                 queue.Enqueue(item);
                 //esto se debe de mandar a SQL
                 //Console.WriteLine("Producing {0}", item);

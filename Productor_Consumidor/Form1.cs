@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace Productor_Consumidor
@@ -16,14 +17,15 @@ namespace Productor_Consumidor
         #region variables
         Object lockObj = new object();
         Queue<string> queue = new Queue<string>();
-        int numeroC, numeroP, disponibleC, disponibleP;
+        int numeroC, numeroP, disponibleC, disponibleP, id;
         string destino, origen, scommand = "";
         Queue<string> instrucciones = new Queue<string>();
         Queue<Consumer> consumidores = new Queue<Consumer>();
         Queue<Producer> productores = new Queue<Producer>();
         bool libre = true;
-        int cantidad=0;
+        int cantidad = 0;
         #endregion
+
         Producer P;
         Consumer C;
         Worker WC;
@@ -58,28 +60,32 @@ namespace Productor_Consumidor
             }
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            actualizartabla();
+        }
+
         void actualizartabla()
         {
             //se actualiza la tabla
+            if (cantidad >= 0)
+            {
+                dtconsumers.Rows[id].Cells[0].Value = "Thread " + (id).ToString();
+                dtconsumers.Rows[id].Cells[1].Value = "Running";
+                dtconsumers.Rows[id].Cells[2].Value = cantidad.ToString() + "/10";
+                cantidad--;
+            }
+            else if (cantidad <= 0)
+            {
+                dtconsumers.Rows[id].Cells[1].Value = "libre";
+            }
+
         }
 
         void Disponibilidad() //maneja la disponibilidad de los threads
         {
             while (libre)
             {
-                if (disponibleC > 0)
-                {
-                    //codigo consumidor
-                    Consumer c1 = consumidores.Peek(); //Devuelve un objeto al principio de Queue sin eliminarlo.
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(c1.consume));
-                    consumidores.Enqueue(c1);           //Agrega un objeto al final de Queue.
-                }
-                else
-                {
-                    //que hacer si no hay disponibilidad
-                    scommand = origen + " " + destino;
-                    instrucciones.Enqueue(scommand);
-                }
                 if (disponibleP > 0)
                 {
                     //codigo productor
@@ -95,6 +101,22 @@ namespace Productor_Consumidor
                     scommand = origen + " " + destino;
                     instrucciones.Enqueue(scommand);
                 }
+                if (disponibleC > 0)
+                {
+                    //codigo consumidor
+                    Consumer c1 = consumidores.Peek(); //Devuelve un objeto al principio de Queue sin eliminarlo.
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(c1.consume));
+                    id = c1.getID();
+                    actualizartabla();
+                    consumidores.Enqueue(c1);           //Agrega un objeto al final de Queue.
+                }
+                else
+                {
+                    //que hacer si no hay disponibilidad
+                    scommand = origen + " " + destino;
+                    instrucciones.Enqueue(scommand);
+                }
+
             }
 
         }
@@ -109,9 +131,8 @@ namespace Productor_Consumidor
             dtconsumers.Rows.Add(numeroC);
             for (int i = 0; i < 3; i++)
             {
-                C = new Consumer(queue, lockObj, "C1");
+                C = new Consumer(queue, lockObj, i);
                 consumidores.Enqueue(C); //se agrega a un cola para luego re usarlo
-                //C = new Consumer(queue, lockObj, "C1");
                 dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtconsumers.Rows[i].Cells[1].Value = "Libre";
                 dtconsumers.Rows[i].Cells[2].Value = "0/10";
@@ -121,7 +142,7 @@ namespace Productor_Consumidor
             dtproducers.Rows.Add(numeroP);
             for (int i = 0; i < 3; i++)
             {
-                P = new Producer(queue, "P1");
+                P = new Producer(queue, i);
                 productores.Enqueue(P); //se agrega a un cola para luego re usarlo
                 dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtproducers.Rows[i].Cells[1].Value = "Libre";
@@ -131,6 +152,8 @@ namespace Productor_Consumidor
 
         private void Agregar_Click(object sender, EventArgs e)
         {
+            timer1.Interval = 1000;
+            timer1.Start();
             disponibleC = numeroC;
             disponibleP = numeroP;      // para saber cuantos consumidores y productores hay
             origen = Origen.Text;

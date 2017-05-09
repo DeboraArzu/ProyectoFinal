@@ -19,7 +19,7 @@ namespace Productor_Consumidor
         {
             this.id = id;
             this.used = 0;
-            this.thread.Name = "Thread " + type;
+            //this.thread.Name = type;
             this.used = disponible;
             this.type = type;
          //   this.thread.Start();

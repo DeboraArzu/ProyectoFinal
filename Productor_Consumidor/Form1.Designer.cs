@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Origen = new System.Windows.Forms.TextBox();
             this.Destino = new System.Windows.Forms.TextBox();
             this.Informacion = new System.Windows.Forms.Label();
@@ -51,6 +52,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TxtCantidad = new System.Windows.Forms.TextBox();
             this.lbCantidad = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dtproducers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtconsumers)).BeginInit();
             this.SuspendLayout();
@@ -272,6 +274,10 @@
             this.lbCantidad.TabIndex = 19;
             this.lbCantidad.Text = "Cantidad";
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // fmWorker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -332,6 +338,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TxtCantidad;
         private System.Windows.Forms.Label lbCantidad;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
