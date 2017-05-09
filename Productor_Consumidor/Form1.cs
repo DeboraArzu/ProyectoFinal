@@ -134,7 +134,7 @@ namespace Productor_Consumidor
             disponibleP = numeroP;      // para saber cuantos consumidores y productores hay
             origen = Origen.Text;
             destino = Destino.Text;     //datos para sql
-            cantidad = int.Parse(TxtCantidad.Text);
+            cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
             disponibleP--;
             disponibleC--;              //manejo para saber cuantos hay disponibles
             WC.setDisponible(disponibleC);

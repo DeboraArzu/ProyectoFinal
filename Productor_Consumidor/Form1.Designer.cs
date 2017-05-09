@@ -50,13 +50,14 @@
             this.txtcons = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TxtCantidad = new System.Windows.Forms.TextBox();
+            this.lbCantidad = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtproducers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtconsumers)).BeginInit();
             this.SuspendLayout();
             // 
             // Origen
             // 
-            this.Origen.Location = new System.Drawing.Point(627, 201);
+            this.Origen.Location = new System.Drawing.Point(627, 176);
             this.Origen.Margin = new System.Windows.Forms.Padding(4);
             this.Origen.Name = "Origen";
             this.Origen.Size = new System.Drawing.Size(148, 22);
@@ -64,7 +65,7 @@
             // 
             // Destino
             // 
-            this.Destino.Location = new System.Drawing.Point(627, 263);
+            this.Destino.Location = new System.Drawing.Point(627, 238);
             this.Destino.Margin = new System.Windows.Forms.Padding(4);
             this.Destino.Name = "Destino";
             this.Destino.Size = new System.Drawing.Size(148, 22);
@@ -84,7 +85,7 @@
             // 
             this.lOrigen.AutoSize = true;
             this.lOrigen.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lOrigen.Location = new System.Drawing.Point(627, 162);
+            this.lOrigen.Location = new System.Drawing.Point(627, 137);
             this.lOrigen.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lOrigen.Name = "lOrigen";
             this.lOrigen.Size = new System.Drawing.Size(54, 16);
@@ -95,7 +96,7 @@
             // 
             this.lDestino.AutoSize = true;
             this.lDestino.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lDestino.Location = new System.Drawing.Point(627, 244);
+            this.lDestino.Location = new System.Drawing.Point(627, 219);
             this.lDestino.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lDestino.Name = "lDestino";
             this.lDestino.Size = new System.Drawing.Size(61, 16);
@@ -169,7 +170,7 @@
             // 
             this.Agregar.AutoSize = true;
             this.Agregar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Agregar.Location = new System.Drawing.Point(630, 306);
+            this.Agregar.Location = new System.Drawing.Point(630, 281);
             this.Agregar.Margin = new System.Windows.Forms.Padding(4);
             this.Agregar.Name = "Agregar";
             this.Agregar.Size = new System.Drawing.Size(129, 28);
@@ -182,7 +183,7 @@
             // 
             this.btremove.AutoSize = true;
             this.btremove.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btremove.Location = new System.Drawing.Point(630, 352);
+            this.btremove.Location = new System.Drawing.Point(630, 327);
             this.btremove.Margin = new System.Windows.Forms.Padding(4);
             this.btremove.Name = "btremove";
             this.btremove.Size = new System.Drawing.Size(129, 28);
@@ -255,10 +256,21 @@
             // 
             // TxtCantidad
             // 
-            this.TxtCantidad.Location = new System.Drawing.Point(627, 118);
+            this.TxtCantidad.Location = new System.Drawing.Point(630, 94);
             this.TxtCantidad.Name = "TxtCantidad";
             this.TxtCantidad.Size = new System.Drawing.Size(100, 22);
             this.TxtCantidad.TabIndex = 18;
+            // 
+            // lbCantidad
+            // 
+            this.lbCantidad.AutoSize = true;
+            this.lbCantidad.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lbCantidad.Location = new System.Drawing.Point(624, 59);
+            this.lbCantidad.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbCantidad.Name = "lbCantidad";
+            this.lbCantidad.Size = new System.Drawing.Size(70, 16);
+            this.lbCantidad.TabIndex = 19;
+            this.lbCantidad.Text = "Cantidad";
             // 
             // fmWorker
             // 
@@ -266,6 +278,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(805, 441);
+            this.Controls.Add(this.lbCantidad);
             this.Controls.Add(this.TxtCantidad);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btiniciar);
@@ -318,6 +331,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cpCantidad;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TxtCantidad;
+        private System.Windows.Forms.Label lbCantidad;
     }
 }
 
