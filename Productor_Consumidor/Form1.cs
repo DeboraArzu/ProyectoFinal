@@ -53,31 +53,42 @@ namespace Productor_Consumidor
             {
                 libre = false;
                 dtproducers.Rows[idP].Cells[0].Value = "Thread " + (idC).ToString();
-                dtproducers.Rows[idP].Cells[1].Value = "Producing";
+                dtproducers.Rows[idP].Cells[1].Value = P.getEstado();
                 dtproducers.Rows[idP].Cells[2].Value = P.getRequest().ToString() + "/10";
-                P.setRequest(P.getRequest() - 1);
+              //  P.setRequest(P.getRequest() - 1);
+                //consumers
+                dtconsumers.Rows[idC].Cells[0].Value = "Thread " + (idC).ToString();
+                dtconsumers.Rows[idC].Cells[1].Value = C.getEstado();
+                dtconsumers.Rows[idC].Cells[2].Value = C.getRequest().ToString() + "/10";
+               // C.setRequest(C.getRequest() - 1);
             }
             else if (P.getRequest() <= 0)
             {
+                //producer
                 dtconsumers.Rows[idP].Cells[1].Value = "libre";
+                P.setRequest(0);
+                //consumer
+                dtconsumers.Rows[idC].Cells[1].Value = "libre";
+                C.setRequest(0);
                 libre = true;
             }
 
             //se actualiza la tabla consumers
-            if (libre)
-            {
-                if (C.getRequest() >= 0)
-                {
-                    dtconsumers.Rows[idC].Cells[0].Value = "Thread " + (idC).ToString();
-                    dtconsumers.Rows[idC].Cells[1].Value = "Running";
-                    dtconsumers.Rows[idC].Cells[2].Value = C.getRequest().ToString() + "/10";
-                    C.setRequest(C.getRequest() - 1);
-                }
-                else if (C.getRequest() <= 0)
-                {
-                    dtconsumers.Rows[idC].Cells[1].Value = "libre";
-                }
-            }
+            //if (libre)
+            //{
+            //    if (C.getRequest() >= 0)
+            //    {
+            //        dtconsumers.Rows[idC].Cells[0].Value = "Thread " + (idC).ToString();
+            //        dtconsumers.Rows[idC].Cells[1].Value = C.getEstado();
+            //        dtconsumers.Rows[idC].Cells[2].Value = C.getRequest().ToString() + "/10";
+            //        C.setRequest(C.getRequest() - 1);
+            //    }
+            //    else if (C.getRequest() <= 0)
+            //    {
+            //        dtconsumers.Rows[idC].Cells[1].Value = "libre";
+            //        C.setRequest(0);
+            //    }
+            //}
         }
 
         void Disponibilidad() //maneja la disponibilidad de los threads
@@ -105,7 +116,7 @@ namespace Productor_Consumidor
                 {
                     //codigo consumidor
                     C = consumidores.Peek(); //Devuelve un objeto al principio de Queue sin eliminarlo.
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(C.consume));
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(C.consumeINS));
                     idC = C.getID();
                     C.setRequest(cantidad);
                     actualizartabla();

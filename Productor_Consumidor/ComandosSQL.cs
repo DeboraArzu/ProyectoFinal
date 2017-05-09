@@ -34,7 +34,7 @@ namespace Productor_Consumidor
             }
         }
 
-        public void insertData(String quantity, String origin, String destiny)
+        public void insertData(int quantity, String origin, String destiny)
         {
             try
             {

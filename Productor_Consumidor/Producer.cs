@@ -37,10 +37,11 @@ namespace Productor_Consumidor
                 //esto se debe de mandar a SQL
                 //Console.WriteLine("Producing {0}", item);
                 Console.WriteLine("Producer: " + id + " RUNNING " + item);
-                estado = "Producer: " + id + " RUNNING " + item;
+                request = productionCycleCounter;
+                estado = " Running ";
             }
             Console.WriteLine("Producer: " + id + "STOPPED ");
-           estado = "Producer: " + id + "STOPPED ";
+           estado = "Libre";
         }
 
         public void setRequest(int request)
@@ -56,6 +57,10 @@ namespace Productor_Consumidor
         public int getRequest()
         {
             return request;
+        }
+        public string getEstado()
+        {
+            return estado;
         }
     }
 }

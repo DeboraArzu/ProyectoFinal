@@ -53,6 +53,8 @@
             this.TxtCantidad = new System.Windows.Forms.TextBox();
             this.lbCantidad = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtproducers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtconsumers)).BeginInit();
             this.SuspendLayout();
@@ -115,7 +117,7 @@
             this.cpEstado,
             this.cpCantidad});
             this.dtproducers.GridColor = System.Drawing.SystemColors.MenuText;
-            this.dtproducers.Location = new System.Drawing.Point(17, 59);
+            this.dtproducers.Location = new System.Drawing.Point(17, 48);
             this.dtproducers.Name = "dtproducers";
             this.dtproducers.Size = new System.Drawing.Size(378, 150);
             this.dtproducers.TabIndex = 8;
@@ -211,7 +213,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(434, 137);
+            this.label1.Location = new System.Drawing.Point(431, 59);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(92, 16);
@@ -222,7 +224,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label2.Location = new System.Drawing.Point(434, 55);
+            this.label2.Location = new System.Drawing.Point(431, 124);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(107, 16);
@@ -231,7 +233,7 @@
             // 
             // txtprod
             // 
-            this.txtprod.Location = new System.Drawing.Point(434, 156);
+            this.txtprod.Location = new System.Drawing.Point(431, 87);
             this.txtprod.Margin = new System.Windows.Forms.Padding(4);
             this.txtprod.Name = "txtprod";
             this.txtprod.Size = new System.Drawing.Size(148, 22);
@@ -240,7 +242,7 @@
             // 
             // txtcons
             // 
-            this.txtcons.Location = new System.Drawing.Point(434, 94);
+            this.txtcons.Location = new System.Drawing.Point(434, 159);
             this.txtcons.Margin = new System.Windows.Forms.Padding(4);
             this.txtcons.Name = "txtcons";
             this.txtcons.Size = new System.Drawing.Size(148, 22);
@@ -278,12 +280,36 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label4.Location = new System.Drawing.Point(14, 205);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(107, 16);
+            this.label4.TabIndex = 20;
+            this.label4.Text = "Consumidores";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label5.Location = new System.Drawing.Point(14, 23);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 16);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "Productores";
+            // 
             // fmWorker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(805, 441);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.lbCantidad);
             this.Controls.Add(this.TxtCantidad);
             this.Controls.Add(this.label3);
@@ -339,6 +365,8 @@
         private System.Windows.Forms.TextBox TxtCantidad;
         private System.Windows.Forms.Label lbCantidad;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }
 

@@ -8,10 +8,11 @@ namespace Productor_Consumidor
 {
     class Consumer
     {
+        ComandosSQL sql = new ComandosSQL();
         Queue<string> queue;
         Object lockObject;
         int name, request = 0;
-        public string estado;
+        public string estado, origen, destino;
         public Consumer(Queue<string> queue, Object lockObject, int name, int request)
         {
             this.queue = queue;
@@ -44,7 +45,37 @@ namespace Productor_Consumidor
             }
         }
 
-        public void consume(Object stateInfo)
+        public void consumeINS(Object stateInfo)
+        {
+            //test
+            Thread.Sleep(500);
+            string item;
+            while (true)
+            {
+                lock (lockObject)
+                {
+                    //seccion critica
+                    if (queue.Count != request) //que la cantidad sea igual a la producida, cantidad original 0 si es 0 no puede consumir una vez sea distinto comenzara a consumir lo que se produzca
+                    {
+                        // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
+                        estado = "Sleep ";
+                        continue;
+                    }
+                    if (request != 0)
+                    {
+                        item = queue.Dequeue();
+                        request--;
+                        Console.WriteLine(" {0} Comsuming {1}", name, item);
+                        //sentencia de SQL para insertar
+                        // sql.insertData(request, origen, destino);
+                        estado = "Running ";
+                    }
+                    
+                }
+            }
+        }
+
+        public void consumeDLT(Object stateInfo)
         {
             //test
             Thread.Sleep(500);
@@ -57,14 +88,14 @@ namespace Productor_Consumidor
                     if (queue.Count == 0)
                     {
                         // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
-                        estado = "Consumer: " + name + " SLEEP ";
+                        estado = "SLEEP ";
                         continue;
                     }
                     item = queue.Dequeue();
-                    //estado = "Consumer " + name + "Consuming" + item;
-                    //esto se debe de mandar a SQL
                     Console.WriteLine(" {0} Comsuming {1}", name, item);
-                    estado = "Consumer: " + name + " RUNNING " + item;
+                    //sentencia de SQL para eliminar
+                        // sql.deleteData(origen, destino);
+                    estado = "RUNNING ";
                 }
             }
         }
@@ -82,6 +113,10 @@ namespace Productor_Consumidor
         public int getRequest()
         {
             return request;
+        }
+        public string getEstado()
+        {
+            return estado;
         }
     }
 }
