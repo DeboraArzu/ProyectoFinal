@@ -16,7 +16,7 @@ namespace Productor_Consumidor
         #region variables
         Object lockObj = new object();
         Queue<string> queue = new Queue<string>();
-        int numeroC, numeroP, disponibleC, disponibleP = 0;
+        int numeroC, numeroP, disponibleC, disponibleP, cantidad = 0;
         string destino, origen, scommand = "";
         Queue<string> instrucciones = new Queue<string>();
         Queue<Consumer> consumidores = new Queue<Consumer>();
@@ -129,6 +129,7 @@ namespace Productor_Consumidor
 
         private void Agregar_Click(object sender, EventArgs e)
         {
+            cantidad = Convert.ToInt32(txtcantidad.Text);       //numero de veces a ejecutar la instruccion
             disponibleC = numeroC;
             disponibleP = numeroP;      // para saber cuantos consumidores y productores hay
             origen = Origen.Text;
