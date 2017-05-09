@@ -16,12 +16,13 @@ namespace Productor_Consumidor
         #region variables
         Object lockObj = new object();
         Queue<string> queue = new Queue<string>();
-        int numeroC, numeroP, disponibleC, disponibleP, cantidad = 0;
+        int numeroC, numeroP, disponibleC, disponibleP;
         string destino, origen, scommand = "";
         Queue<string> instrucciones = new Queue<string>();
         Queue<Consumer> consumidores = new Queue<Consumer>();
         Queue<Producer> productores = new Queue<Producer>();
         bool libre = true;
+        int cantidad=0;
         #endregion
         Producer P;
         Consumer C;
@@ -83,7 +84,7 @@ namespace Productor_Consumidor
                 {
                     //codigo productor
                     Producer p1 = productores.Peek();
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(p1.produce));
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(p1.produce,cantidad));
                     productores.Enqueue(p1);        //Agrega un objeto al final de Queue.
                     libre = false;
                 }
@@ -129,11 +130,11 @@ namespace Productor_Consumidor
 
         private void Agregar_Click(object sender, EventArgs e)
         {
-            cantidad = Convert.ToInt32(txtcantidad.Text);       //numero de veces a ejecutar la instruccion
             disponibleC = numeroC;
             disponibleP = numeroP;      // para saber cuantos consumidores y productores hay
             origen = Origen.Text;
             destino = Destino.Text;     //datos para sql
+            cantidad = int.Parse(TxtCantidad.Text);
             disponibleP--;
             disponibleC--;              //manejo para saber cuantos hay disponibles
             WC.setDisponible(disponibleC);

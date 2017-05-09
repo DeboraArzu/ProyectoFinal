@@ -14,17 +14,17 @@ namespace Productor_Consumidor
         Queue<string> queue;
         string item;
         int productionCycleCounter;
-        int cantidadpro = 0;
+        int cantidadpro = 0; // puede usarse para otro proceso
         public Producer(Queue<string> queue, string id)
         {
             this.queue = queue;
             this.id = id;
         }
 
-        public void produce(Object stateInfo)
+        public void produce(Object stateInfo, int cantidad)
         {
             //test
-            while (productionCycleCounter < cantidadpro)
+            while (productionCycleCounter < cantidad)
             {
                 productionCycleCounter += 1;// increase counter
                 item = "item" + productionCycleCounter;
