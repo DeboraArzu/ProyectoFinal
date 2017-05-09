@@ -14,11 +14,12 @@ namespace Productor_Consumidor
         Queue<string> queue;
         string item;
         int productionCycleCounter;
-        int cantidadpro = 0; // puede usarse para otro proceso
-        public Producer(Queue<string> queue, int id)
+        int cantidadpro, request = 0; // puede usarse para otro proceso
+        public Producer(Queue<string> queue, int id, int request)
         {
             this.queue = queue;
             this.id = id;
+            this.request = request;
         }
 
         public void Cantidad(int cantidad)
@@ -40,6 +41,21 @@ namespace Productor_Consumidor
             }
             Console.WriteLine("Producer: " + id + "STOPPED ");
            estado = "Producer: " + id + "STOPPED ";
+        }
+
+        public void setRequest(int request)
+        {
+            this.request = request;
+        }
+
+        public int getID()
+        {
+            return id;
+        }
+
+        public int getRequest()
+        {
+            return request;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Productor_Consumidor
         #region variables
         Object lockObj = new object();
         Queue<string> queue = new Queue<string>();
-        int numeroC, numeroP, disponibleC, disponibleP, id;
+        int numeroC, numeroP, disponibleC, disponibleP, idC, idP;
         string destino, origen, scommand = "";
         Queue<string> instrucciones = new Queue<string>();
         Queue<Consumer> consumidores = new Queue<Consumer>();
@@ -41,25 +41,6 @@ namespace Productor_Consumidor
 
         }
 
-        void crear(int tipo)
-        {
-            //0 para consumer
-            // 1 para producer
-            if (tipo == 0)
-            {
-                //C = new Consumer(queue, lockObj, "c" + numeroC.ToString());
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(C.consume));
-                //numeroC++;
-            }
-            else
-            {
-                //P = new Producer(queue, "P" + numeroP.ToString());
-                //P.produce(numeroP);
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(P.produce));
-                //numeroP++;
-            }
-        }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             actualizartabla();
@@ -67,33 +48,52 @@ namespace Productor_Consumidor
 
         void actualizartabla()
         {
-            //se actualiza la tabla
-            if (cantidad >= 0)
+            //producers
+            if (P.getRequest() >= 0)
             {
-                dtconsumers.Rows[id].Cells[0].Value = "Thread " + (id).ToString();
-                dtconsumers.Rows[id].Cells[1].Value = "Running";
-                dtconsumers.Rows[id].Cells[2].Value = cantidad.ToString() + "/10";
-                cantidad--;
+                libre = false;
+                dtproducers.Rows[idP].Cells[0].Value = "Thread " + (idC).ToString();
+                dtproducers.Rows[idP].Cells[1].Value = "Producing";
+                dtproducers.Rows[idP].Cells[2].Value = P.getRequest().ToString() + "/10";
+                P.setRequest(P.getRequest() - 1);
             }
-            else if (cantidad <= 0)
+            else if (P.getRequest() <= 0)
             {
-                dtconsumers.Rows[id].Cells[1].Value = "libre";
+                dtconsumers.Rows[idP].Cells[1].Value = "libre";
+                libre = true;
             }
 
+            //se actualiza la tabla consumers
+            if (libre)
+            {
+                if (C.getRequest() >= 0)
+                {
+                    dtconsumers.Rows[idC].Cells[0].Value = "Thread " + (idC).ToString();
+                    dtconsumers.Rows[idC].Cells[1].Value = "Running";
+                    dtconsumers.Rows[idC].Cells[2].Value = C.getRequest().ToString() + "/10";
+                    C.setRequest(C.getRequest() - 1);
+                }
+                else if (C.getRequest() <= 0)
+                {
+                    dtconsumers.Rows[idC].Cells[1].Value = "libre";
+                }
+            }
         }
 
         void Disponibilidad() //maneja la disponibilidad de los threads
         {
-            while (libre)
+            // while (libre)
             {
                 if (disponibleP > 0)
                 {
                     //codigo productor
-                    Producer p1 = productores.Peek();
-                    p1.Cantidad(cantidad);          //cantidad de instrucciones
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(p1.produce));
-                    productores.Enqueue(p1);        //Agrega un objeto al final de Queue.
-                    libre = false;
+                    P = productores.Peek();
+                    P.Cantidad(cantidad);          //cantidad de instrucciones
+                    P.setRequest(cantidad);
+                    idP = P.getID();
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(P.produce));
+                    productores.Enqueue(P);        //Agrega un objeto al final de Queue.
+                    actualizartabla();
                 }
                 else
                 {
@@ -104,11 +104,12 @@ namespace Productor_Consumidor
                 if (disponibleC > 0)
                 {
                     //codigo consumidor
-                    Consumer c1 = consumidores.Peek(); //Devuelve un objeto al principio de Queue sin eliminarlo.
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(c1.consume));
-                    id = c1.getID();
+                    C = consumidores.Peek(); //Devuelve un objeto al principio de Queue sin eliminarlo.
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(C.consume));
+                    idC = C.getID();
+                    C.setRequest(cantidad);
                     actualizartabla();
-                    consumidores.Enqueue(c1);           //Agrega un objeto al final de Queue.
+                    consumidores.Enqueue(C);           //Agrega un objeto al final de Queue.
                 }
                 else
                 {
@@ -131,7 +132,7 @@ namespace Productor_Consumidor
             dtconsumers.Rows.Add(numeroC);
             for (int i = 0; i < 3; i++)
             {
-                C = new Consumer(queue, lockObj, i);
+                C = new Consumer(queue, lockObj, i, 0);
                 consumidores.Enqueue(C); //se agrega a un cola para luego re usarlo
                 dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtconsumers.Rows[i].Cells[1].Value = "Libre";
@@ -142,7 +143,7 @@ namespace Productor_Consumidor
             dtproducers.Rows.Add(numeroP);
             for (int i = 0; i < 3; i++)
             {
-                P = new Producer(queue, i);
+                P = new Producer(queue, i, 0);
                 productores.Enqueue(P); //se agrega a un cola para luego re usarlo
                 dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtproducers.Rows[i].Cells[1].Value = "Libre";
