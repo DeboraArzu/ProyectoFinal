@@ -94,6 +94,28 @@ namespace Productor_Consumidor
                 //entra en cola la intruccion
                 Comandos cmd = new Comandos("", origen, destino);
                 instrucciones.Enqueue(cmd);
+                if (insertar)
+                {
+                    WC.agregarOrigenDestino(idC, origen, destino);
+                    WP.IniciarProcesosProd(idP);
+                    WC.IniciarProcesosConsI(idC);
+                    WC.setLibreConsumidor(idC, false);
+                    WP.setLibreProductor(idP, false);
+                    actualizartabla();
+                    numeroC++;
+                    numeroP++;
+                    robin.returntoQueue(idP, idC);
+                    WC.setLibreConsumidor(idC, true);
+                    WP.setLibreProductor(idP, true);
+                }
+                else //delete
+                {
+                    WP.IniciarProcesosProd(idP);
+                    WC.IniciarProcesosConsD(idC);
+                    actualizartabla();
+                    numeroC++;
+                    numeroP++;
+                }
             }
         }
 
