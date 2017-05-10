@@ -13,7 +13,8 @@ namespace Productor_Consumidor
         Object lockObject;
         int iID, request = 0;
         public string estado, origen, destino;
-        public Consumer(Queue<string> queue, Object lockObject, int name, int request)
+        bool libre;
+        public Consumer(Queue<string> queue, Object lockObject, int name, int request, bool libre)
         {
             this.queue = queue;
             this.lockObject = lockObject;
@@ -21,6 +22,7 @@ namespace Productor_Consumidor
             this.request = request;
             origen = "";
             destino = "";
+            this.libre = libre;
         }
 
         public void consume()

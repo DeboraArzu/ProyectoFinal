@@ -48,25 +48,35 @@ namespace Productor_Consumidor
             //se actualiza la tabla
             for (int i = 0; i < numeroC; i++)
             {
+                dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(i);
+                dtconsumers.Rows[i].Cells[2].Value = WC.getRequestConsumidor(i) + "/" + cantidad;
 
+                dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                dtproducers.Rows[i].Cells[1].Value = WP.getEstadoProductor(i);
+                dtproducers.Rows[i].Cells[2].Value = WP.getRequestProductores(i) +"0/" + cantidad;
             }
         }
 
         void Disponibilidad() //maneja la disponibilidad de los threads
         {
+            //para este punto ya se conoce el id de consumidor y productor
             numeroC--; numeroP--; //se resta uno para decir que un thread de cada uno ya esta ocupado
             if (numeroC > 0 && numeroP > 0) //aun hay disponibles
             {
                 if (insertar)
                 {
-                    //ThreadPool.QueueUserWorkItem(new WaitCallback(P.produce));
-                    // ThreadPool.QueueUserWorkItem(new WaitCallback(C.consumeINS));
+                    WP.IniciarProcesosProd(idP);
+                    WC.IniciarProcesosCons(idC);
+                    actualizartabla();
+                    numeroC++;
+                    numeroP++;
                 }
                 else //delete
                 {
 
                 }
-                
+
             }
             else
             {
@@ -88,8 +98,8 @@ namespace Productor_Consumidor
             dtproducers.Rows.Add(numeroP);
             for (int i = 0; i < 3; i++)
             {
-                WC.agregarConsumer(i);
-                WP.agregarProducer(i);
+                WC.agregarConsumer(i, true);
+                WP.agregarProducer(i, true);
 
                 dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtconsumers.Rows[i].Cells[1].Value = "Libre";

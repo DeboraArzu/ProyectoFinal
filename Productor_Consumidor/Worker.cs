@@ -42,15 +42,15 @@ namespace Productor_Consumidor
         {
             return used;
         }
-        public void agregarConsumer(int id)
+        public void agregarConsumer(int id, bool libre)
         {
-            C = new Consumer(queue, lockObj, id, 0);
+            C = new Consumer(queue, lockObj, id, 0, libre);
             consumidores.Add(C);
         }
 
-        public void agregarProducer(int id)
+        public void agregarProducer(int id, bool libre)
         {
-            P = new Producer(queue, id, 0);
+            P = new Producer(queue, id, 0, libre);
             productores.Add(P);
         }
 
@@ -76,10 +76,20 @@ namespace Productor_Consumidor
         {
             consumidores[id].setOrigenDestino(origen, destino);
         }
-
         public bool setAvaible()
         {
             return working;
+        }
+
+        public void IniciarProcesosProd(int id)
+        {
+            P = productores[id];
+            ThreadPool.QueueUserWorkItem(new WaitCallback(P.produce));
+        }
+        public void IniciarProcesosCons(int id)
+        {
+            C = consumidores[id];
+            ThreadPool.QueueUserWorkItem(new WaitCallback(C.consumeINS));
         }
     }
 }

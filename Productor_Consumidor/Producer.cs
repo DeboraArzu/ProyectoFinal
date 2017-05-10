@@ -14,12 +14,14 @@ namespace Productor_Consumidor
         Queue<string> queue;
         string item;
         int productionCycleCounter;
+        bool libre;
         int cantidadpro, request = 0; // puede usarse para otro proceso
-        public Producer(Queue<string> queue, int id, int request)
+        public Producer(Queue<string> queue, int id, int request, bool libre)
         {
             this.queue = queue;
             this.id = id;
             this.request = request;
+            this.libre = libre;
         }
         public void Cantidad(int cantidad)
         {
