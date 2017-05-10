@@ -31,7 +31,7 @@ namespace Productor_Consumidor
 
         public void produce(Object stateInfo)
         {
-            
+
             while (productionCycleCounter < cantidadpro)
             {
                 productionCycleCounter += 1;// increase counter
@@ -69,6 +69,16 @@ namespace Productor_Consumidor
         public int getProducctionTotal()
         {
             return cantidadpro; ;
+        }
+
+        public bool getLibre()
+        {
+            return libre;
+        }
+
+        public void setLibre(bool libre)
+        {
+            this.libre = libre;
         }
     }
 }

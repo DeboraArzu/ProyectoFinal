@@ -70,10 +70,14 @@ namespace Productor_Consumidor
                 {
                     WP.IniciarProcesosProd(idP);
                     WC.IniciarProcesosConsI(idC);
+                    WC.setLibreConsumidor(idC, false);
+                    WP.setLibreProductor(idP, false);
                     actualizartabla();
                     numeroC++;
                     numeroP++;
                     robin.returntoQueue(idP, idC);
+                    WC.setLibreConsumidor(idC, true);
+                    WP.setLibreProductor(idP, true);
                 }
                 else //delete
                 {
@@ -153,8 +157,8 @@ namespace Productor_Consumidor
             timer1.Start();
             origen = Origen.Text;
             destino = Destino.Text;     //datos para sql
-                                        //set idC e idP   ID de consumidor y productor a emplear
-                                        //agregar destino y origen
+            //set idC e idP   ID de consumidor y productor a emplear
+            //agregar destino y origen
             cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccionKD
             WP.sendCantidadProducers(cantidad, idP);
             WC.sendRequestConsumer(cantidad, idC);

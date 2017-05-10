@@ -134,5 +134,13 @@ namespace Productor_Consumidor
         {
             return estado;
         }
+        public bool getLibre()
+        {
+            return libre;
+        }
+        public void setLibre(bool libre)
+        {
+            this.libre = libre;
+        }
     }
 }
