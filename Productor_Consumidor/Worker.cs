@@ -40,6 +40,7 @@ namespace Productor_Consumidor
         {
             return used;
         }
+
         public void agregarConsumer(int id, bool libre, Queue<string> queue, object lockObj)
         {
             C = new Consumer(queue, lockObj, id, 0, libre);
@@ -66,14 +67,27 @@ namespace Productor_Consumidor
         {
             return consumidores[id].getRequest();
         } 
+
         public int getRequestProductores(int id) //obtine el production cycle
         {
             return productores[id].getProducction();
         }
+
+        public int getRequestConsumidorTotal(int id) //obtiene el numero de elementos totales que debe de consumir
+        {
+            return consumidores[id].getTotalRquest();
+        }
+
+        public int getRequestProductorTotal(int id) //obtiene el numero de elementos ha producir total
+        {
+            return productores[id].getProducctionTotal(); ;
+        }
+
         public void agregarOrigenDestino(int id, string origen, string destino)
         {
             consumidores[id].setOrigenDestino(origen, destino);
         }
+
         public bool setAvaible()
         {
             return working;
@@ -84,21 +98,24 @@ namespace Productor_Consumidor
             P = productores[id];
             ThreadPool.QueueUserWorkItem(new WaitCallback(P.produce));
         }
+
         public void IniciarProcesosConsI(int id)
         {
             C = consumidores[id];
             ThreadPool.QueueUserWorkItem(new WaitCallback(C.consumeINS));
         }
+
         public void IniciarProcesosConsD(int id)
         {
             C = consumidores[id];
             ThreadPool.QueueUserWorkItem(new WaitCallback(C.consumeDLT));
         }
 
-        public void sendCantidad(int cantidad, int id)
+        public void sendCantidadProducers(int cantidad, int id)
         {
             productores[id].SetCantidadProducir(cantidad);
         }
+
         public void sendRequestConsumer(int cantidad, int id)
         {
             consumidores[id].setRequest(cantidad);

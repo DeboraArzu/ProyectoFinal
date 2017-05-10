@@ -36,6 +36,8 @@ namespace Productor_Consumidor
         private void Form1_Load(object sender, EventArgs e)
         {
             timer1.Interval = 500;
+            Agregar.Enabled = false;
+            btremove.Enabled = false;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -50,11 +52,11 @@ namespace Productor_Consumidor
             {
                 dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(i);
-                dtconsumers.Rows[i].Cells[2].Value = WC.getRequestConsumidor(i) + "/" + cantidad;
+                dtconsumers.Rows[i].Cells[2].Value = WC.getRequestConsumidor(i) + "/" + WC.getRequestConsumidorTotal(i);
 
                 dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtproducers.Rows[i].Cells[1].Value = WP.getEstadoProductor(i);
-                dtproducers.Rows[i].Cells[2].Value = WP.getRequestProductores(i) + "0/" + cantidad;
+                dtproducers.Rows[i].Cells[2].Value = WP.getRequestProductores(i) + "/" + WP.getRequestProductorTotal(i);
             }
         }
 
@@ -92,6 +94,8 @@ namespace Productor_Consumidor
 
         private void btiniciar_Click(object sender, EventArgs e)
         {
+            Agregar.Enabled = true;
+            btremove.Enabled = true;
             numeroC = Convert.ToInt32(txtcons.Text);
             numeroP = Convert.ToInt32(txtprod.Text); //numero de productores y consumidores
             WC = new Worker(0, "Consumer", numeroC);
@@ -102,7 +106,7 @@ namespace Productor_Consumidor
             dtproducers.Rows.Add(numeroP);
             for (int i = 0; i < 3; i++)
             {
-                WC.agregarConsumer(i, true,queue, lockObj);
+                WC.agregarConsumer(i, true, queue, lockObj);
                 WP.agregarProducer(i, true, queue);
 
                 dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
@@ -117,21 +121,29 @@ namespace Productor_Consumidor
 
         private void Agregar_Click(object sender, EventArgs e)
         {
-            timer1.Start();
-            insertar = true;
-            origen = Origen.Text;
-            destino = Destino.Text;     //datos para sql
-            //set idC e idP   ID de consumidor y productor a emplear
-            robin = new RoundRobin(numeroP, numeroC);
-            idC = robin.getIDc();
-            idP = robin.getIDp(); //temporal emplear metodo round robin
+            try
+            {
+                timer1.Start();
+                insertar = true;
+                origen = Origen.Text;
+                destino = Destino.Text;     //datos para sql
+                cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
+                                                        //set idC e idP   ID de consumidor y productor a emplear
+                robin = new RoundRobin(numeroP, numeroC);
+                idC = robin.getIDc();
+                idP = robin.getIDp(); //temporal emplear metodo round robin
+                                      //agregar destino y origen
+                WC.agregarOrigenDestino(idC, origen, destino);
+                WP.sendCantidadProducers(cantidad, idP);
+                WC.sendRequestConsumer(cantidad, idC);
+                Disponibilidad();                       //inicia el codigo y verifica si hay threads disponibles
+            }
+            catch (Exception)
+            {
 
-            //agregar destino y origen
-            WC.agregarOrigenDestino(idC, origen, destino);
-            cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
-            WP.sendCantidad(cantidad, idP);
-            WC.sendRequestConsumer(cantidad, idC);
-            Disponibilidad();                       //inicia el codigo y verifica si hay threads disponibles
+                MessageBox.Show("Error en los datos ingresados \n" + " verifique los datos", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void btremove_Click(object sender, EventArgs e)

@@ -23,10 +23,12 @@ namespace Productor_Consumidor
             this.libre = libre;
             this.estado = "Libre";
         }
+
         public void SetCantidadProducir(int cantidad) //se le dice cuantas veces tiene que entrar al while
         {
             cantidadpro = cantidad;
         }
+
         public void produce(Object stateInfo)
         {
             
@@ -43,21 +45,30 @@ namespace Productor_Consumidor
             Console.WriteLine("Producer: " + id + "STOPPED ");
             estado = "Libre";
         }
+
         public void setRequest(int request)
         {
             this.productionCycleCounter = request;
         }
+
         public int getID()
         {
             return id;
         }
+
         public int getProducction()
         {
             return productionCycleCounter;
         }
+
         public string getEstado()
         {
             return estado;
+        }
+
+        public int getProducctionTotal()
+        {
+            return cantidadpro; ;
         }
     }
 }

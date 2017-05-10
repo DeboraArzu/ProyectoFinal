@@ -11,7 +11,7 @@ namespace Productor_Consumidor
         ComandosSQL sql = new ComandosSQL();
         Queue<string> queue;
         Object lockObject;
-        int iID, request = 0;
+        int iID, request, totalrequest = 0;
         public string estado, origen, destino;
         bool libre;
         public Consumer(Queue<string> queue, Object lockObject, int name, int request, bool libre)
@@ -113,6 +113,7 @@ namespace Productor_Consumidor
         public void setRequest(int request)
         {
             this.request = request;
+            this.totalrequest = request;
         }
         public void setOrigenDestino(string origen, string destino)
         {
@@ -123,6 +124,11 @@ namespace Productor_Consumidor
         public int getRequest()
         {
             return request;
+        }
+
+        public int getTotalRquest()
+        {
+            return totalrequest;
         }
         public string getEstado()
         {
