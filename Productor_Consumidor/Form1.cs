@@ -19,6 +19,7 @@ namespace Productor_Consumidor
         Queue<string> queue = new Queue<string>();
         int numeroC, numeroP, idC, idP;
         string destino, origen, scommand = "";
+        bool insertar = true;
         Queue<Comandos> instrucciones = new Queue<Comandos>();
         List<Consumer> consumidores = new List<Consumer>();
         List<Producer> productores = new List<Producer>();
@@ -56,7 +57,16 @@ namespace Productor_Consumidor
             numeroC--; numeroP--; //se resta uno para decir que un thread de cada uno ya esta ocupado
             if (numeroC > 0 && numeroP > 0) //aun hay disponibles
             {
+                if (insertar)
+                {
+                    //ThreadPool.QueueUserWorkItem(new WaitCallback(P.produce));
+                    // ThreadPool.QueueUserWorkItem(new WaitCallback(C.consumeINS));
+                }
+                else //delete
+                {
 
+                }
+                
             }
             else
             {
@@ -94,6 +104,7 @@ namespace Productor_Consumidor
         private void Agregar_Click(object sender, EventArgs e)
         {
             timer1.Start();
+            insertar = true;
             origen = Origen.Text;
             destino = Destino.Text;     //datos para sql
             //set idC e idP   ID de consumidor y productor a emplear
@@ -105,7 +116,15 @@ namespace Productor_Consumidor
 
         private void btremove_Click(object sender, EventArgs e)
         {
-
+            insertar = false;
+            timer1.Start();
+            origen = Origen.Text;
+            destino = Destino.Text;     //datos para sql
+            //set idC e idP   ID de consumidor y productor a emplear
+            //agregar destino y origen
+            WC.agregarOrigenDestino(idC, origen, destino);
+            cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
+            Disponibilidad();
         }
     }
 }
