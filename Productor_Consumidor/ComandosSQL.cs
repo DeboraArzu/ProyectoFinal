@@ -58,7 +58,7 @@ namespace Productor_Consumidor
 
                 }
 
-                MessageBox.Show("Save Data");
+               Console.WriteLine("Save Data");
                 MyConn2.Close();
                // showData();
             }
@@ -79,7 +79,7 @@ namespace Productor_Consumidor
                 MySqlDataReader MyReader2;
                 MyConn2.Open();
                 MyReader2 = MyCommand2.ExecuteReader();
-                MessageBox.Show("Data Deleted");
+                Console.WriteLine("Data Deleted");
                 while (MyReader2.Read())
                 {
                 }

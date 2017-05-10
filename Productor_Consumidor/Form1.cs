@@ -53,7 +53,9 @@ namespace Productor_Consumidor
                 dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(i);
                 dtconsumers.Rows[i].Cells[2].Value = WC.getRequestConsumidor(i) + "/" + WC.getRequestConsumidorTotal(i);
-
+            }
+            for (int i = 0; i < numeroP; i++)
+            {
                 dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtproducers.Rows[i].Cells[1].Value = WP.getEstadoProductor(i);
                 dtproducers.Rows[i].Cells[2].Value = WP.getRequestProductores(i) + "/" + WP.getRequestProductorTotal(i);
@@ -132,18 +134,20 @@ namespace Productor_Consumidor
             dtconsumers.Rows.Add(numeroC);
             //agregar producers
             dtproducers.Rows.Add(numeroP);
-            for (int i = 0; i < 3; i++)
+
+            for (int i = 0; i < numeroP; i++)
             {
-                WC.agregarConsumer(i, true, queue, lockObj);
                 WP.agregarProducer(i, true, queue);
-
-                dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
-                dtconsumers.Rows[i].Cells[1].Value = "Libre";
-                dtconsumers.Rows[i].Cells[2].Value = "0/" + cantidad;
-
                 dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtproducers.Rows[i].Cells[1].Value = "Libre";
                 dtproducers.Rows[i].Cells[2].Value = "0/" + cantidad;
+            }
+            for (int i = 0; i < numeroC; i++)
+            {
+                WC.agregarConsumer(i, true, queue, lockObj);
+                dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                dtconsumers.Rows[i].Cells[1].Value = "Libre";
+                dtconsumers.Rows[i].Cells[2].Value = "0/" + cantidad;
             }
         }
 
