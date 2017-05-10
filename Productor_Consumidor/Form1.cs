@@ -15,17 +15,17 @@ namespace Productor_Consumidor
     public partial class fmWorker : Form
     {
         #region variables
-        Object lockObj = new object();
-        Queue<string> queue = new Queue<string>();
         int numeroC, numeroP, idC, idP;
-        string destino, origen, scommand = "";
+        string destino, origen = "";
         bool insertar = true;
         Queue<Comandos> instrucciones = new Queue<Comandos>();
+        Queue<string> queue = new Queue<string>();
+        Object lockObj = new object();
         List<Consumer> consumidores = new List<Consumer>();
-        List<Producer> productores = new List<Producer>();
         int cantidad = 0;
         #endregion
 
+        RoundRobin robin;
         Worker WC;
         Worker WP;
         public fmWorker()
@@ -54,7 +54,7 @@ namespace Productor_Consumidor
 
                 dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtproducers.Rows[i].Cells[1].Value = WP.getEstadoProductor(i);
-                dtproducers.Rows[i].Cells[2].Value = WP.getRequestProductores(i) +"0/" + cantidad;
+                dtproducers.Rows[i].Cells[2].Value = WP.getRequestProductores(i) + "0/" + cantidad;
             }
         }
 
@@ -67,14 +67,18 @@ namespace Productor_Consumidor
                 if (insertar)
                 {
                     WP.IniciarProcesosProd(idP);
-                    WC.IniciarProcesosCons(idC);
+                    WC.IniciarProcesosConsI(idC);
                     actualizartabla();
                     numeroC++;
                     numeroP++;
                 }
                 else //delete
                 {
-
+                    WP.IniciarProcesosProd(idP);
+                    WC.IniciarProcesosConsD(idC);
+                    actualizartabla();
+                    numeroC++;
+                    numeroP++;
                 }
 
             }
@@ -98,8 +102,8 @@ namespace Productor_Consumidor
             dtproducers.Rows.Add(numeroP);
             for (int i = 0; i < 3; i++)
             {
-                WC.agregarConsumer(i, true);
-                WP.agregarProducer(i, true);
+                WC.agregarConsumer(i, true,queue, lockObj);
+                WP.agregarProducer(i, true, queue);
 
                 dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtconsumers.Rows[i].Cells[1].Value = "Libre";
@@ -118,9 +122,15 @@ namespace Productor_Consumidor
             origen = Origen.Text;
             destino = Destino.Text;     //datos para sql
             //set idC e idP   ID de consumidor y productor a emplear
+            robin = new RoundRobin(numeroP, numeroC);
+            idC = robin.getIDc();
+            idP = robin.getIDp(); //temporal emplear metodo round robin
+
             //agregar destino y origen
             WC.agregarOrigenDestino(idC, origen, destino);
             cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
+            WP.sendCantidad(cantidad, idP);
+            WC.sendRequestConsumer(cantidad, idC);
             Disponibilidad();                       //inicia el codigo y verifica si hay threads disponibles
         }
 

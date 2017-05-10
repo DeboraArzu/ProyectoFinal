@@ -13,8 +13,6 @@ namespace Productor_Consumidor
         protected bool working;
         public int used, request;
         public string type, estado;
-        Object lockObj = new object();
-        Queue<string> queue = new Queue<string>();
         List<Consumer> consumidores = new List<Consumer>();
         List<Producer> productores = new List<Producer>();
         Consumer C;
@@ -42,13 +40,13 @@ namespace Productor_Consumidor
         {
             return used;
         }
-        public void agregarConsumer(int id, bool libre)
+        public void agregarConsumer(int id, bool libre, Queue<string> queue, object lockObj)
         {
             C = new Consumer(queue, lockObj, id, 0, libre);
             consumidores.Add(C);
         }
 
-        public void agregarProducer(int id, bool libre)
+        public void agregarProducer(int id, bool libre, Queue<string> queue)
         {
             P = new Producer(queue, id, 0, libre);
             productores.Add(P);
@@ -64,13 +62,13 @@ namespace Productor_Consumidor
             return productores[id].getEstado();
         }
 
-        public int getRequestConsumidor(int id)
+        public int getRequestConsumidor(int id) //obtiene el numero de elementos consumidos
         {
             return consumidores[id].getRequest();
-        }
-        public int getRequestProductores(int id)
+        } 
+        public int getRequestProductores(int id) //obtine el production cycle
         {
-            return productores[id].getRequest();
+            return productores[id].getProducction();
         }
         public void agregarOrigenDestino(int id, string origen, string destino)
         {
@@ -86,10 +84,24 @@ namespace Productor_Consumidor
             P = productores[id];
             ThreadPool.QueueUserWorkItem(new WaitCallback(P.produce));
         }
-        public void IniciarProcesosCons(int id)
+        public void IniciarProcesosConsI(int id)
         {
             C = consumidores[id];
             ThreadPool.QueueUserWorkItem(new WaitCallback(C.consumeINS));
+        }
+        public void IniciarProcesosConsD(int id)
+        {
+            C = consumidores[id];
+            ThreadPool.QueueUserWorkItem(new WaitCallback(C.consumeDLT));
+        }
+
+        public void sendCantidad(int cantidad, int id)
+        {
+            productores[id].SetCantidadProducir(cantidad);
+        }
+        public void sendRequestConsumer(int cantidad, int id)
+        {
+            consumidores[id].setRequest(cantidad);
         }
     }
 }

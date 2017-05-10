@@ -22,6 +22,7 @@ namespace Productor_Consumidor
             this.request = request;
             origen = "";
             destino = "";
+            estado = "Libre";
             this.libre = libre;
         }
 

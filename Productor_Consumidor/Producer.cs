@@ -13,23 +13,23 @@ namespace Productor_Consumidor
         public int id;
         Queue<string> queue;
         string item;
-        int productionCycleCounter;
+        public int productionCycleCounter;
         bool libre;
-        int cantidadpro, request = 0; // puede usarse para otro proceso
+        int cantidadpro = 0; // puede usarse para otro proceso
         public Producer(Queue<string> queue, int id, int request, bool libre)
         {
             this.queue = queue;
             this.id = id;
-            this.request = request;
             this.libre = libre;
+            this.estado = "Libre";
         }
-        public void Cantidad(int cantidad)
+        public void SetCantidadProducir(int cantidad) //se le dice cuantas veces tiene que entrar al while
         {
             cantidadpro = cantidad;
         }
         public void produce(Object stateInfo)
         {
-            //test
+            
             while (productionCycleCounter < cantidadpro)
             {
                 productionCycleCounter += 1;// increase counter
@@ -38,7 +38,6 @@ namespace Productor_Consumidor
                 //esto se debe de mandar a SQL
                 //Console.WriteLine("Producing {0}", item);
                 Console.WriteLine("Producer: " + id + " RUNNING " + item);
-                request = productionCycleCounter;
                 estado = " Running ";
             }
             Console.WriteLine("Producer: " + id + "STOPPED ");
@@ -46,15 +45,15 @@ namespace Productor_Consumidor
         }
         public void setRequest(int request)
         {
-            this.request = request;
+            this.productionCycleCounter = request;
         }
         public int getID()
         {
             return id;
         }
-        public int getRequest()
+        public int getProducction()
         {
-            return request;
+            return productionCycleCounter;
         }
         public string getEstado()
         {
