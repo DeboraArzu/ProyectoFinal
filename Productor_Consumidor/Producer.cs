@@ -14,7 +14,7 @@ namespace Productor_Consumidor
         Queue<string> queue;
         string item;
         public int productionCycleCounter;
-        bool libre;
+        bool libre = true;
         int cantidadpro = 0; // puede usarse para otro proceso
         public Producer(Queue<string> queue, int id, int request, bool libre)
         {

@@ -13,7 +13,7 @@ namespace Productor_Consumidor
         Object lockObject;
         int iID, request, totalrequest = 0;
         public string estado, origen, destino;
-        bool libre;
+        bool libre = true;
         public Consumer(Queue<string> queue, Object lockObject, int name, int request, bool libre)
         {
             this.queue = queue;
