@@ -131,7 +131,6 @@ namespace Productor_Consumidor
                 destino = Destino.Text;     //datos para sql
                 cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
                                                         //set idC e idP   ID de consumidor y productor a emplear
-                
                 robin.RoundRobinexe();
                 idC = robin.getIDc();
                 idP = robin.getIDp(); //temporal emplear metodo round robin
@@ -154,8 +153,11 @@ namespace Productor_Consumidor
             timer1.Start();
             origen = Origen.Text;
             destino = Destino.Text;     //datos para sql
-            //set idC e idP   ID de consumidor y productor a emplear
-            //agregar destino y origen
+                                        //set idC e idP   ID de consumidor y productor a emplear
+                                        //agregar destino y origen
+            cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccionKD
+            WP.sendCantidadProducers(cantidad, idP);
+            WC.sendRequestConsumer(cantidad, idC);
             WC.agregarOrigenDestino(idC, origen, destino);
             cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
             Disponibilidad();

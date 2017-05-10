@@ -90,7 +90,7 @@ namespace Productor_Consumidor
                 lock (lockObject)
                 {
                     //seccion critica
-                    if (queue.Count == 0)
+                    if (queue.Count != request)
                     {
                         // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
                         estado = "SLEEP ";
