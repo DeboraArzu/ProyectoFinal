@@ -73,6 +73,7 @@ namespace Productor_Consumidor
                     actualizartabla();
                     numeroC++;
                     numeroP++;
+                    robin.returntoQueue(idP, idC);
                 }
                 else //delete
                 {
@@ -100,6 +101,7 @@ namespace Productor_Consumidor
             numeroP = Convert.ToInt32(txtprod.Text); //numero de productores y consumidores
             WC = new Worker(0, "Consumer", numeroC);
             WP = new Worker(1, "Producer", numeroP);
+            robin = new RoundRobin(numeroP, numeroC);
             //agregar consumers
             dtconsumers.Rows.Add(numeroC);
             //agregar producers
@@ -129,7 +131,8 @@ namespace Productor_Consumidor
                 destino = Destino.Text;     //datos para sql
                 cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
                                                         //set idC e idP   ID de consumidor y productor a emplear
-                robin = new RoundRobin(numeroP, numeroC);
+                
+                robin.RoundRobinexe();
                 idC = robin.getIDc();
                 idP = robin.getIDp(); //temporal emplear metodo round robin
                                       //agregar destino y origen
@@ -140,7 +143,6 @@ namespace Productor_Consumidor
             }
             catch (Exception)
             {
-
                 MessageBox.Show("Error en los datos ingresados \n" + " verifique los datos", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

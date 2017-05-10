@@ -72,7 +72,7 @@ namespace Productor_Consumidor
                         request--;
                         Console.WriteLine(" {0} Comsuming {1}", iID, item);
                         //sentencia de SQL para insertar
-                        // sql.insertData(request, origen, destino);
+                        sql.insertData(totalrequest, origen, destino);
                         estado = "Running ";
                     }
 
@@ -99,7 +99,7 @@ namespace Productor_Consumidor
                     item = queue.Dequeue();
                     Console.WriteLine(" {0} Comsuming {1}", iID, item);
                     //sentencia de SQL para eliminar
-                    // sql.deleteData(origen, destino);
+                    sql.deleteData(origen, destino);
                     estado = "RUNNING ";
                 }
             }

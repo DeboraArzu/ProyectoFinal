@@ -14,7 +14,7 @@ namespace Productor_Consumidor
         {
             try
             {
-                string MyConnection2 = "server=127.0.0.1;user id=sa;password=annabelliqua;database=sys";
+                string MyConnection2 = "server=127.0.0.1;user id=sa;password=;database=sys";
                 //Display query  
                 string QueryUpdate = "select * from lista_transaccion;";
                 MySqlConnection MyConn2 = new MySqlConnection(MyConnection2);
@@ -40,7 +40,7 @@ namespace Productor_Consumidor
             {
 
                 //This is my connection string i have assigned the database file address path  
-                string MyConnection2 = "server=127.0.0.1;user id=sa;password=annabelliqua;database=sys";
+                string MyConnection2 = "server=127.0.0.1;user id=sa;password=12345678;database=sys";
                 //This is my insert query in which i am taking input from the user through windows forms  
                 string Query = "Insert into lista_transaccion(origen,destino) values('" + origin + "','" + destiny + "');";
                 //This is  MySqlConnection here i have created the object and pass my connection string.  
@@ -72,7 +72,7 @@ namespace Productor_Consumidor
         {
             try
             {
-                string MyConnection2 = "server=127.0.0.1;user id=sa;password=annabelliqua;database=sys";
+                string MyConnection2 = "server=127.0.0.1;user id=sa;password=12345678;database=sys";
                 string Query = "delete from lista_transaccion where origen='" + origin + "' and destino = '" + destiny + "';";
                 MySqlConnection MyConn2 = new MySqlConnection(MyConnection2);
                 MySqlCommand MyCommand2 = new MySqlCommand(Query, MyConn2);

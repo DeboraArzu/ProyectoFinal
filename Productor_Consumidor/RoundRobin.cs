@@ -10,6 +10,8 @@ namespace Productor_Consumidor
     {
         int cantidadProducer, cantidadConsumer;
         int IDp, IDc;
+        Queue<int> myqueueC = new Queue<int>();
+        Queue<int> myqueueP = new Queue<int>();
 
         public RoundRobin(int cantidadProducer, int cantidadConsumer)
         {
@@ -17,6 +19,25 @@ namespace Productor_Consumidor
             this.cantidadProducer = cantidadProducer;
             this.IDp = 0;
             this.IDc = 0;
+            agregarIDs();
+        }
+
+        void agregarIDs() //se agregan los ID's a la cola
+        {
+            for (int i = 0; i < cantidadConsumer; i++)
+            {
+                myqueueC.Enqueue(i);
+            }
+            for (int i = 0; i < cantidadProducer; i++)
+            {
+                myqueueP.Enqueue(i);
+            }
+        }
+
+        public void RoundRobinexe()
+        {
+            IDp = myqueueP.Dequeue();
+            IDc = myqueueC.Dequeue();
         }
 
         public int getIDp()
@@ -26,6 +47,12 @@ namespace Productor_Consumidor
         public int getIDc()
         {
             return IDc;
+        }
+
+        public void returntoQueue(int idP, int idC) //regresa los valores a la cola
+        {
+            myqueueC.Enqueue(idC);
+            myqueueP.Enqueue(idP);
         }
     }
 }
