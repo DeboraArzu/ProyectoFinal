@@ -21,7 +21,6 @@ namespace Productor_Consumidor
             this.id = id;
             this.request = request;
         }
-
         public void Cantidad(int cantidad)
         {
             cantidadpro = cantidad;
@@ -41,19 +40,16 @@ namespace Productor_Consumidor
                 estado = " Running ";
             }
             Console.WriteLine("Producer: " + id + "STOPPED ");
-           estado = "Libre";
+            estado = "Libre";
         }
-
         public void setRequest(int request)
         {
             this.request = request;
         }
-
         public int getID()
         {
             return id;
         }
-
         public int getRequest()
         {
             return request;

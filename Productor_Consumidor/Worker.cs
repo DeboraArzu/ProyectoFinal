@@ -7,22 +7,25 @@ using System.Threading;
 
 namespace Productor_Consumidor
 {
-    public class Worker 
+    public class Worker
     {
         protected int id;
         protected bool working;
-        protected Thread thread;
-        public int used;
-        public string type;
+        public int used, request;
+        public string type, estado;
+        Object lockObj = new object();
+        Queue<string> queue = new Queue<string>();
+        List<Consumer> consumidores = new List<Consumer>();
+        List<Producer> productores = new List<Producer>();
+        Consumer C;
+        Producer P;
 
         public Worker(int id, string type, int disponible)
         {
             this.id = id;
             this.used = 0;
-            //this.thread.Name = type;
             this.used = disponible;
             this.type = type;
-         //   this.thread.Start();
         }
 
         public int getId()
@@ -39,20 +42,44 @@ namespace Productor_Consumidor
         {
             return used;
         }
+        public void agregarConsumer(int id)
+        {
+            C = new Consumer(queue, lockObj, id, 0);
+            consumidores.Add(C);
+        }
 
-        public bool getWorking()
+        public void agregarProducer(int id)
+        {
+            P = new Producer(queue, id, 0);
+            productores.Add(P);
+        }
+
+        public string getEstadoConsumidor(int id)
+        {
+            return consumidores[id].getEstado();
+        }
+
+        public string getEstadoProductor(int id)
+        {
+            return productores[id].getEstado();
+        }
+
+        public int getRequestConsumidor(int id)
+        {
+            return consumidores[id].getRequest();
+        }
+        public int getRequestProductores(int id)
+        {
+            return productores[id].getRequest();
+        }
+        public void agregarOrigenDestino(int id, string origen, string destino)
+        {
+            consumidores[id].setOrigenDestino(origen, destino);
+        }
+
+        public bool setAvaible()
         {
             return working;
-        }
-
-        public string getStatus()
-        {
-            return thread.ThreadState.ToString();
-        }
-
-        public void remove()
-        {
-            this.thread.Abort();
         }
     }
 }

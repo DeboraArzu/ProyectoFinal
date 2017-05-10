@@ -11,14 +11,16 @@ namespace Productor_Consumidor
         ComandosSQL sql = new ComandosSQL();
         Queue<string> queue;
         Object lockObject;
-        int name, request = 0;
+        int iID, request = 0;
         public string estado, origen, destino;
         public Consumer(Queue<string> queue, Object lockObject, int name, int request)
         {
             this.queue = queue;
             this.lockObject = lockObject;
-            this.name = name;
+            this.iID = name;
             this.request = request;
+            origen = "";
+            destino = "";
         }
 
         public void consume()
@@ -33,14 +35,14 @@ namespace Productor_Consumidor
                     if (queue.Count == 0)
                     {
                         // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
-                        estado = "Consumer: " + name + " SLEEP ";
+                        estado = "Consumer: " + iID + " SLEEP ";
                         continue;
                     }
                     item = queue.Dequeue();
                     //estado = "Consumer " + name + "Consuming" + item;
                     //esto se debe de mandar a SQL
                     //Console.WriteLine(" {0} Comsuming {1}", name, item);
-                    estado = "Consumer: " + name + " RUNNING, " + item;
+                    estado = "Consumer: " + iID + " RUNNING, " + item;
                 }
             }
         }
@@ -65,12 +67,12 @@ namespace Productor_Consumidor
                     {
                         item = queue.Dequeue();
                         request--;
-                        Console.WriteLine(" {0} Comsuming {1}", name, item);
+                        Console.WriteLine(" {0} Comsuming {1}", iID, item);
                         //sentencia de SQL para insertar
                         // sql.insertData(request, origen, destino);
                         estado = "Running ";
                     }
-                    
+
                 }
             }
         }
@@ -92,9 +94,9 @@ namespace Productor_Consumidor
                         continue;
                     }
                     item = queue.Dequeue();
-                    Console.WriteLine(" {0} Comsuming {1}", name, item);
+                    Console.WriteLine(" {0} Comsuming {1}", iID, item);
                     //sentencia de SQL para eliminar
-                        // sql.deleteData(origen, destino);
+                    // sql.deleteData(origen, destino);
                     estado = "RUNNING ";
                 }
             }
@@ -102,12 +104,17 @@ namespace Productor_Consumidor
 
         public int getID()
         {
-            return name;
+            return iID;
         }
 
         public void setRequest(int request)
         {
             this.request = request;
+        }
+        public void setOrigenDestino(string origen, string destino)
+        {
+            this.origen = origen;
+            this.destino = destino;
         }
 
         public int getRequest()

@@ -65,7 +65,7 @@
             this.Origen.Margin = new System.Windows.Forms.Padding(4);
             this.Origen.Name = "Origen";
             this.Origen.Size = new System.Drawing.Size(148, 22);
-            this.Origen.TabIndex = 0;
+            this.Origen.TabIndex = 1;
             // 
             // Destino
             // 
@@ -73,7 +73,7 @@
             this.Destino.Margin = new System.Windows.Forms.Padding(4);
             this.Destino.Name = "Destino";
             this.Destino.Size = new System.Drawing.Size(148, 22);
-            this.Destino.TabIndex = 1;
+            this.Destino.TabIndex = 2;
             // 
             // Informacion
             // 
@@ -178,7 +178,7 @@
             this.Agregar.Margin = new System.Windows.Forms.Padding(4);
             this.Agregar.Name = "Agregar";
             this.Agregar.Size = new System.Drawing.Size(129, 28);
-            this.Agregar.TabIndex = 10;
+            this.Agregar.TabIndex = 3;
             this.Agregar.Text = "ADD";
             this.Agregar.UseVisualStyleBackColor = true;
             this.Agregar.Click += new System.EventHandler(this.Agregar_Click);
@@ -191,7 +191,7 @@
             this.btremove.Margin = new System.Windows.Forms.Padding(4);
             this.btremove.Name = "btremove";
             this.btremove.Size = new System.Drawing.Size(129, 28);
-            this.btremove.TabIndex = 11;
+            this.btremove.TabIndex = 4;
             this.btremove.Text = "REMOVE";
             this.btremove.UseVisualStyleBackColor = true;
             this.btremove.Click += new System.EventHandler(this.btremove_Click);
@@ -263,7 +263,7 @@
             this.TxtCantidad.Location = new System.Drawing.Point(630, 94);
             this.TxtCantidad.Name = "TxtCantidad";
             this.TxtCantidad.Size = new System.Drawing.Size(100, 22);
-            this.TxtCantidad.TabIndex = 18;
+            this.TxtCantidad.TabIndex = 0;
             // 
             // lbCantidad
             // 
