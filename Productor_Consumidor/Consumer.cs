@@ -60,7 +60,7 @@ namespace Productor_Consumidor
                 lock (lockObject)
                 {
                     //seccion critica
-                    if (queue.Count != request) //que la cantidad sea igual a la producida, cantidad original 0 si es 0 no puede consumir una vez sea distinto comenzara a consumir lo que se produzca
+                    if (queue.Count < request) //que la cantidad sea igual a la producida, cantidad original 0 si es 0 no puede consumir una vez sea distinto comenzara a consumir lo que se produzca
                     {
                         // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
                         estado = "Sleep ";
@@ -90,7 +90,7 @@ namespace Productor_Consumidor
                 lock (lockObject)
                 {
                     //seccion critica
-                    if (queue.Count != request)
+                    if (queue.Count < request)
                     {
                         // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
                         estado = "SLEEP ";
