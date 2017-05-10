@@ -13,7 +13,7 @@ namespace Productor_Consumidor
         Object lockObject;
         int iID, request, totalrequest = 0;
         public string estado, origen, destino;
-        bool libre;
+        bool libre = true;
         public Consumer(Queue<string> queue, Object lockObject, int name, int request, bool libre)
         {
             this.queue = queue;
@@ -90,7 +90,7 @@ namespace Productor_Consumidor
                 lock (lockObject)
                 {
                     //seccion critica
-                    if (queue.Count == 0)
+                    if (queue.Count != request)
                     {
                         // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
                         estado = "SLEEP ";
@@ -133,6 +133,14 @@ namespace Productor_Consumidor
         public string getEstado()
         {
             return estado;
+        }
+        public bool getLibre()
+        {
+            return libre;
+        }
+        public void setLibre(bool libre)
+        {
+            this.libre = libre;
         }
     }
 }

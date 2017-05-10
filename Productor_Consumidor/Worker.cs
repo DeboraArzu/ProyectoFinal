@@ -66,7 +66,7 @@ namespace Productor_Consumidor
         public int getRequestConsumidor(int id) //obtiene el numero de elementos consumidos
         {
             return consumidores[id].getRequest();
-        } 
+        }
 
         public int getRequestProductores(int id) //obtine el production cycle
         {
@@ -119,6 +119,26 @@ namespace Productor_Consumidor
         public void sendRequestConsumer(int cantidad, int id)
         {
             consumidores[id].setRequest(cantidad);
+        }
+
+        public bool getLibreConsumidor(int id)
+        {
+            return consumidores[id].getLibre();
+        }
+        public bool getLibreProductor(int id)
+        {
+            return productores[id].getLibre();
+        }
+
+        public void setLibreConsumidor(int id, bool libre)
+        {
+            consumidores[id].setLibre(libre);
+
+        }
+        public void setLibreProductor(int id, bool libre)
+        {
+            productores[id].setLibre(libre);
+
         }
     }
 }

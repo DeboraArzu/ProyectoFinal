@@ -50,7 +50,7 @@ namespace Productor_Consumidor
 
                 MyConn2.Open();
                 // Here our query will be executed and data saved into the database.
-                for (int i = 0; i < Convert.ToInt32(quantity); i++)
+                //for (int i = 0; i < Convert.ToInt32(quantity); i++)
                 {
                     MySqlDataReader MyReader2;
                     MyReader2 = MyCommand2.ExecuteReader();
@@ -60,7 +60,7 @@ namespace Productor_Consumidor
 
                 MessageBox.Show("Save Data");
                 MyConn2.Close();
-                showData();
+               // showData();
             }
             catch (Exception ex)
             {

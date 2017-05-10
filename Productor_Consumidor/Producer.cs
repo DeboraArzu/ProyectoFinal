@@ -14,7 +14,7 @@ namespace Productor_Consumidor
         Queue<string> queue;
         string item;
         public int productionCycleCounter;
-        bool libre;
+        bool libre = true;
         int cantidadpro = 0; // puede usarse para otro proceso
         public Producer(Queue<string> queue, int id, int request, bool libre)
         {
@@ -31,7 +31,7 @@ namespace Productor_Consumidor
 
         public void produce(Object stateInfo)
         {
-            
+
             while (productionCycleCounter < cantidadpro)
             {
                 productionCycleCounter += 1;// increase counter
@@ -69,6 +69,16 @@ namespace Productor_Consumidor
         public int getProducctionTotal()
         {
             return cantidadpro; ;
+        }
+
+        public bool getLibre()
+        {
+            return libre;
+        }
+
+        public void setLibre(bool libre)
+        {
+            this.libre = libre;
         }
     }
 }
