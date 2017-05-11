@@ -55,6 +55,8 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtworker = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtproducers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtconsumers)).BeginInit();
             this.SuspendLayout();
@@ -200,7 +202,7 @@
             // 
             this.btiniciar.AutoSize = true;
             this.btiniciar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btiniciar.Location = new System.Drawing.Point(437, 199);
+            this.btiniciar.Location = new System.Drawing.Point(444, 281);
             this.btiniciar.Margin = new System.Windows.Forms.Padding(4);
             this.btiniciar.Name = "btiniciar";
             this.btiniciar.Size = new System.Drawing.Size(129, 28);
@@ -302,12 +304,34 @@
             this.label5.TabIndex = 21;
             this.label5.Text = "Productores";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label6.Location = new System.Drawing.Point(431, 203);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(58, 16);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "Worker";
+            // 
+            // txtworker
+            // 
+            this.txtworker.Location = new System.Drawing.Point(431, 238);
+            this.txtworker.Margin = new System.Windows.Forms.Padding(4);
+            this.txtworker.Name = "txtworker";
+            this.txtworker.Size = new System.Drawing.Size(148, 22);
+            this.txtworker.TabIndex = 22;
+            this.txtworker.Text = "6";
+            // 
             // fmWorker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(805, 441);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtworker);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lbCantidad);
@@ -367,6 +391,8 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtworker;
     }
 }
 

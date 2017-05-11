@@ -31,14 +31,11 @@ namespace Productor_Consumidor
 
         public void produce(Object stateInfo)
         {
-
             while (productionCycleCounter < cantidadpro)
             {
                 productionCycleCounter += 1;// increase counter
                 item = "item " + productionCycleCounter;
                 queue.Enqueue(item);
-                //esto se debe de mandar a SQL
-                //Console.WriteLine("Producing {0}", item);
                 Console.WriteLine("Producer: " + id + " RUNNING " + item);
                 estado = " Running ";
             }

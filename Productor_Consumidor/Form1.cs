@@ -96,19 +96,23 @@ namespace Productor_Consumidor
                 //entra en cola la intruccion
                 Comandos cmd = new Comandos("", origen, destino);
                 instrucciones.Enqueue(cmd);
+                WC.agregarOrigenDestino(numeroC+4, origen, destino);
+                WP.sendCantidadProducers(cantidad, numeroP + 4);
+                WC.sendRequestConsumer(cantidad, numeroC+4);
+                WP.agregarProducer(numeroP+4, true, queue);
+                WC.agregarConsumer(numeroC+4, true, queue, lockObj);
+                WP.IniciarProcesosProd(numeroP+4);
+                WC.IniciarProcesosConsI(numeroC+4);
                 if (insertar)
                 {
-                    WC.agregarOrigenDestino(idC, origen, destino);
-                    WP.IniciarProcesosProd(idP);
-                    WC.IniciarProcesosConsI(idC);
-                    WC.setLibreConsumidor(idC, false);
-                    WP.setLibreProductor(idP, false);
+                    WP.IniciarProcesosProd(numeroP+4);
+                    WC.IniciarProcesosConsI(numeroC+4);
+                    WC.setLibreConsumidor(numeroC+4, false);
+                    WP.setLibreProductor(numeroP+4, false);
                     actualizartabla();
                     numeroC++;
                     numeroP++;
                     robin.returntoQueue(idP, idC);
-                    WC.setLibreConsumidor(idC, true);
-                    WP.setLibreProductor(idP, true);
                 }
                 else //delete
                 {
