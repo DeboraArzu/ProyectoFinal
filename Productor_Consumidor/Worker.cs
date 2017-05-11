@@ -13,6 +13,7 @@ namespace Productor_Consumidor
         protected bool working;
         public int used, request;
         public string type, estado;
+        public string origen, destino = "";
         List<Consumer> consumidores = new List<Consumer>();
         List<Producer> productores = new List<Producer>();
         Consumer C;
@@ -31,9 +32,10 @@ namespace Productor_Consumidor
             return id;
         }
 
-        public void setDisponible(int disponible)
+        public void setOrigenyDestino(string origen, string destino)
         {
-            this.used = disponible;
+            this.origen = origen;
+            this.destino = destino;
         }
 
         public int getDisponible()

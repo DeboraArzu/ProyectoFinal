@@ -53,7 +53,7 @@ namespace Productor_Consumidor
         public void consumeINS(Object stateInfo)
         {
             //test
-            Thread.Sleep(500);
+            Thread.Sleep(300);
             string item;
             while (true)
             {
@@ -64,19 +64,22 @@ namespace Productor_Consumidor
                     {
                         // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
                         estado = "Sleep ";
+                        libre = false;
                         continue;
                     }
                     if (queue.Count != 0)
                     {
                         item = queue.Dequeue();
-                        request--;
+                        request = queue.Count();
                         Console.WriteLine(" {0} Comsuming {1}", iID, item);
                         //sentencia de SQL para insertar
                         sql.insertData(totalrequest, origen, destino);
                         estado = "Running ";
+                        libre = false;
                     }
-
                 }
+                estado = "libre";
+                libre = true;
             }
         }
 

@@ -24,23 +24,25 @@ namespace Productor_Consumidor
             this.estado = "Libre";
         }
 
-        public void SetCantidadProducir(int cantidad) //se le dice cuantas veces tiene que entrar al while
-        {
-            cantidadpro = cantidad;
-        }
-
         public void produce(Object stateInfo)
         {
-            while (productionCycleCounter < cantidadpro)
+            while (productionCycleCounter < cantidadpro) //cantidad de la cola buffer.
             {
                 productionCycleCounter += 1;// increase counter
                 item = "item " + productionCycleCounter;
                 queue.Enqueue(item);
                 Console.WriteLine("Producer: " + id + " RUNNING " + item);
                 estado = " Running ";
+                libre = false;
             }
             Console.WriteLine("Producer: " + id + "STOPPED ");
             estado = "Libre";
+            libre = true;
+        }
+
+        public void SetCantidadProducir(int cantidad) //se le dice cuantas veces tiene que entrar al while
+        {
+            cantidadpro = cantidad;
         }
 
         public void setRequest(int request)
