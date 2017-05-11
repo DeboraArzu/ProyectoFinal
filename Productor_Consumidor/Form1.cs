@@ -49,7 +49,7 @@ namespace Productor_Consumidor
                 robin = new RoundRobin(contador2, contador2);
                 WC = new Worker(0, "Consumer", numeroC);
                 WP = new Worker(1, "Producer", numeroP);
-                contadoraux = cantidad;
+                contadoraux = tamañocola;
                 contadorp = 0;
                 for (int i = 0; i < contador2; i++)
                 {
@@ -301,25 +301,34 @@ namespace Productor_Consumidor
 
         void tabla()
         {
-            dtproducers.Rows.Clear();
-            dtconsumers.Rows.Clear();
-            dtproducers.Rows.Add(WP.numerocolaP());
-            dtconsumers.Rows.Add(WC.numerocolaC());
-            for (int i = 0; i < WP.numerocolaP(); i++)
+            try
             {
-                //set estado consumidor
-                WP.setEstadoP(i, "Libre");
+                dtproducers.Rows.Clear();
+                dtconsumers.Rows.Clear();
+                dtproducers.Rows.Add(WP.numerocolaP());
+                dtconsumers.Rows.Add(WC.numerocolaC());
+                for (int i = 0; i < WP.numerocolaP(); i++)
+                {
+                    //set estado consumidor
+                    WP.setEstadoP(i, "Libre");
+                }
+                for (int i = 0; i < WC.numerocolaC(); i++)
+                {
+                    WC.setEstadoC(i, "libre");
+                }
+                actualizartabla();
             }
-            for (int i = 0; i < WC.numerocolaC(); i++)
+            catch (Exception)
             {
-                WC.setEstadoC(i, "libre");
+
+                throw;
             }
-            actualizartabla();
+
         }
 
         void cola()
         {
-            if (cantidad > tamañocola)
+            while (cantidad > tamañocola)
             {
                 //dividir la produccion
                 //agregar producers y consumers
@@ -336,6 +345,7 @@ namespace Productor_Consumidor
                         dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                         dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(i);
                         dtconsumers.Rows[i].Cells[2].Value = contadoraux + "/" + tamañocola;
+                        cantidad = cantidad - tamañocola;
                     }
                     if (contadorp < tamañocola)
                     {
