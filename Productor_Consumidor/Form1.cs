@@ -168,33 +168,22 @@ namespace Productor_Consumidor
                     contadorp++;
 
                 }
-                if (contadoraux > 0)
+                if (contadoraux > 0 && (contadorp == cantidad))
                 {
                     contadoraux--;
                 }
             }
             catch (Exception)
             {
-                if (numeroC < cantidadworkers)
-                {
-                    if (numeroP < cantidadworkers)
-                    {
-                        dtconsumers.Rows.Clear();
-                        dtproducers.Rows.Clear();
-                        tabla();
-                    }
-                    else
-                    {
-                        dtconsumers.Rows.Clear();
-                        dtproducers.Rows.Clear();
-                        tabla();
-                    }
-                }
-                else
+                if (numeroC + numeroP < cantidadworkers)
                 {
                     dtconsumers.Rows.Clear();
                     dtproducers.Rows.Clear();
                     tabla();
+                }
+                else
+                {
+                    //poner en cola las intrucciones
                 }
                 actualizartabla();
             }
@@ -305,6 +294,43 @@ namespace Productor_Consumidor
                 WC.setEstadoC(i, "libre");
             }
             actualizartabla();
+        }
+
+        void cola()
+        {
+            if (cantidad > tamañocola)
+            {
+                //dividir la produccion
+                //agregar producers y consumers
+                try
+                {
+                    for (int i = 0; i < WP.numerocolaP(); i++)
+                    {
+                        dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                        dtproducers.Rows[i].Cells[1].Value = WP.getEstadoProductor(i);
+                        dtproducers.Rows[i].Cells[2].Value = contadorp + "/" + tamañocola;
+                    }
+                    for (int i = 0; i < WC.numerocolaC(); i++)
+                    {
+                        dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                        dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(i);
+                        dtconsumers.Rows[i].Cells[2].Value = contadoraux + "/" + tamañocola;
+                    }
+                    if (contadorp < tamañocola)
+                    {
+                        contadorp++;
+
+                    }
+                    if (contadoraux > 0)
+                    {
+                        contadoraux--;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
         }
     }
 }
