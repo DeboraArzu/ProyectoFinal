@@ -37,21 +37,35 @@ namespace Productor_Consumidor
 
         private void btremove_MouseLeave(object sender, EventArgs e)
         {
-            timer1.Start();
-            timer2.Start();
-            robin = new RoundRobin(contador2, contador2);
-            WC = new Worker(0, "Consumer", numeroC);
-            WP = new Worker(1, "Producer", numeroP);
-            contadoraux = cantidad;
-            contadorp = 0;
-            for (int i = 0; i < contador2; i++)
+            try
             {
-                WP.agregarProducer(i, true, queue);
-                WC.agregarConsumer(i, true, queue, lockObj);
-                //comenzar a producir
-                manejo2();
+                insertar = false;
+                timer1.Start();
+                origen = Origen.Text;
+                destino = Destino.Text;     //datos para sql
+
+                timer1.Start();
+                timer2.Start();
+                robin = new RoundRobin(contador2, contador2);
+                WC = new Worker(0, "Consumer", numeroC);
+                WP = new Worker(1, "Producer", numeroP);
+                contadoraux = cantidad;
+                contadorp = 0;
+                for (int i = 0; i < contador2; i++)
+                {
+                    WP.agregarProducer(i, true, queue);
+                    WC.agregarConsumer(i, true, queue, lockObj);
+                    //comenzar a producir
+                    manejo2();
+                }
+                contador2 = 0;
+                porsilasdudas();
             }
-            contador2 = 0;
+            catch (Exception)
+            {
+
+            }
+
         }
 
         private void timer2_Tick_1(object sender, EventArgs e)
@@ -69,21 +83,35 @@ namespace Productor_Consumidor
 
         private void Agregar_MouseLeave(object sender, EventArgs e)
         {
-            timer1.Start();
-            timer2.Start();
-            robin = new RoundRobin(contador, contador);
-            WC = new Worker(0, "Consumer", numeroC);
-            WP = new Worker(1, "Producer", numeroP);
-            contadoraux = cantidad;
-            contadorp = 0;
-            for (int i = 0; i < contador; i++)
+            try
             {
-                WP.agregarProducer(i, true, queue);
-                WC.agregarConsumer(i, true, queue, lockObj);
-                //comenzar a producir
-                manejo();
+                insertar = true;
+                origen = Origen.Text;
+                destino = Destino.Text;     //datos para sql
+                cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
+                tamañocola = Convert.ToInt32(txtCola.Text);
+
+                timer1.Start();
+                timer2.Start();
+                robin = new RoundRobin(contador, contador);
+                WC = new Worker(0, "Consumer", numeroC);
+                WP = new Worker(1, "Producer", numeroP);
+                contadoraux = cantidad;
+                contadorp = 0;
+                for (int i = 0; i < contador; i++)
+                {
+                    WP.agregarProducer(i, true, queue);
+                    WC.agregarConsumer(i, true, queue, lockObj);
+                    //comenzar a producir
+                    manejo();
+                }
+                contador = 0;
             }
-            contador = 0;
+            catch (Exception)
+            {
+                MessageBox.Show("Error en los datos ingresados \n" + " verifique los datos", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -121,15 +149,10 @@ namespace Productor_Consumidor
             try
             {
                 contador++; //en base a esto se crean productores y consumidores
-                insertar = true;
-                origen = Origen.Text;
-                destino = Destino.Text;     //datos para sql
-                cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
-                tamañocola = Convert.ToInt32(txtCola.Text);
             }
             catch (Exception)
             {
-                MessageBox.Show("Error en los datos ingresados \n" + " verifique los datos", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
 
         }
@@ -137,10 +160,7 @@ namespace Productor_Consumidor
         private void btremove_Click(object sender, EventArgs e)
         {
             contador2++;
-            insertar = false;
-            timer1.Start();
-            origen = Origen.Text;
-            destino = Destino.Text;     //datos para sql
+
         }
 
         void actualizartabla()
@@ -263,6 +283,7 @@ namespace Productor_Consumidor
             WP.IniciarProcesosProd(idP);
             robin.returntoQueue(idP, idC);
             WC.IniciarProcesosConsI(idC);
+            cola();
         }
 
         void manejo2()
@@ -319,7 +340,6 @@ namespace Productor_Consumidor
                     if (contadorp < tamañocola)
                     {
                         contadorp++;
-
                     }
                     if (contadoraux > 0)
                     {
@@ -331,6 +351,12 @@ namespace Productor_Consumidor
 
                 }
             }
+        }
+
+        void porsilasdudas()
+        {
+            ComandosSQL sql = new ComandosSQL();
+            sql.deleteData(origen, destino);
         }
     }
 }
