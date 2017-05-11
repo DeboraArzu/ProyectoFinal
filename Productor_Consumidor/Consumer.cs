@@ -53,7 +53,7 @@ namespace Productor_Consumidor
         public void consumeINS(Object stateInfo)
         {
             //test
-            Thread.Sleep(300);
+            Thread.Sleep(100);
             string item;
             while (true)
             {
@@ -65,6 +65,10 @@ namespace Productor_Consumidor
                         // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
                         estado = "Sleep ";
                         libre = false;
+                        if (queue.Count == 0 && request > 0)
+                        {
+                            request = 0;
+                        }
                         continue;
                     }
                     if (queue.Count != 0)
@@ -76,6 +80,10 @@ namespace Productor_Consumidor
                         sql.insertData(totalrequest, origen, destino);
                         estado = "Running ";
                         libre = false;
+                        if (request > 0)
+                        {
+                            request--;
+                        }
                     }
                 }
                 estado = "libre";
@@ -86,25 +94,41 @@ namespace Productor_Consumidor
         public void consumeDLT(Object stateInfo)
         {
             //test
-            Thread.Sleep(500);
+            Thread.Sleep(100);
             string item;
             while (true)
             {
                 lock (lockObject)
                 {
                     //seccion critica
-                    if (queue.Count < request)
+                    if (queue.Count < request) //que la cantidad sea igual a la producida, cantidad original 0 si es 0 no puede consumir una vez sea distinto comenzara a consumir lo que se produzca
                     {
                         // al entrar aqui se salta la parte de escribir porque no hay nada en la cola.
-                        estado = "SLEEP ";
+                        estado = "Sleep ";
+                        libre = false;
+                        if (queue.Count == 0 && request > 0)
+                        {
+                            request = 0;
+                        }
                         continue;
                     }
-                    item = queue.Dequeue();
-                    Console.WriteLine(" {0} Comsuming {1}", iID, item);
-                    //sentencia de SQL para eliminar
-                    sql.deleteData(origen, destino);
-                    estado = "RUNNING ";
+                    if (queue.Count != 0)
+                    {
+                        item = queue.Dequeue();
+                        request = queue.Count();
+                        Console.WriteLine(" {0} Comsuming {1}", iID, item);
+                        //sentencia de SQL para insertar
+                        sql.deleteData(origen, destino);
+                        estado = "Running ";
+                        libre = false;
+                        if (request > 0)
+                        {
+                            request--;
+                        }
+                    }
                 }
+                estado = "libre";
+                libre = true;
             }
         }
 

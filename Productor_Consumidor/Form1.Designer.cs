@@ -59,6 +59,7 @@
             this.txtworker = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtCola = new System.Windows.Forms.TextBox();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dtproducers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtconsumers)).BeginInit();
             this.SuspendLayout();
@@ -346,6 +347,10 @@
             this.txtCola.Size = new System.Drawing.Size(100, 22);
             this.txtCola.TabIndex = 24;
             // 
+            // timer2
+            // 
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick_1);
+            // 
             // fmWorker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -419,6 +424,7 @@
         private System.Windows.Forms.TextBox txtworker;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtCola;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 

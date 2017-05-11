@@ -17,7 +17,7 @@ namespace Productor_Consumidor
         #region variables
         int numeroC, numeroP, idC, idP, tamañocola, cantidadworkers;
         int contador, totalinserts, totaldeletes, contador2 = 0;
-        int contadoraux = 0;
+        int contadoraux, contadorp = 0;
         string destino, origen = "";
         bool insertar = true;
         Queue<Comandos> instrucciones = new Queue<Comandos>();
@@ -37,21 +37,45 @@ namespace Productor_Consumidor
 
         private void btremove_MouseLeave(object sender, EventArgs e)
         {
+            timer1.Start();
+            timer2.Start();
+            robin = new RoundRobin(contador2, contador2);
+            WC = new Worker(0, "Consumer", numeroC);
+            WP = new Worker(1, "Producer", numeroP);
+            contadoraux = cantidad;
+            contadorp = 0;
+            for (int i = 0; i < contador2; i++)
+            {
+                WP.agregarProducer(i, true, queue);
+                WC.agregarConsumer(i, true, queue, lockObj);
+                //comenzar a producir
+                manejo2();
+            }
+            contador2 = 0;
+        }
 
+        private void timer2_Tick_1(object sender, EventArgs e)
+        {
+            tabla();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            timer1.Interval = 100;
+            timer1.Interval = 1000;
+            timer2.Interval = 1500;
             Agregar.Enabled = false;
             btremove.Enabled = false;
         }
 
         private void Agregar_MouseLeave(object sender, EventArgs e)
         {
+            timer1.Start();
+            timer2.Start();
             robin = new RoundRobin(contador, contador);
-            //codigo de creacion de consumer y producers
-            contadoraux = contador;
+            WC = new Worker(0, "Consumer", numeroC);
+            WP = new Worker(1, "Producer", numeroP);
+            contadoraux = cantidad;
+            contadorp = 0;
             for (int i = 0; i < contador; i++)
             {
                 WP.agregarProducer(i, true, queue);
@@ -59,7 +83,7 @@ namespace Productor_Consumidor
                 //comenzar a producir
                 manejo();
             }
-         
+            contador = 0;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -77,23 +101,19 @@ namespace Productor_Consumidor
             dtconsumers.Rows.Add(numeroC);
             dtproducers.Rows.Add(numeroP);
 
-            WC = new Worker(0, "Consumer", numeroC);
-            WP = new Worker(1, "Producer", numeroP);
             for (int i = 0; i < numeroP; i++)
             {
-
                 dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtproducers.Rows[i].Cells[1].Value = "Libre";
                 dtproducers.Rows[i].Cells[2].Value = "0/" + cantidad;
             }
             for (int i = 0; i < numeroC; i++)
             {
-
                 dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                 dtconsumers.Rows[i].Cells[1].Value = "Libre";
                 dtconsumers.Rows[i].Cells[2].Value = "0/" + cantidad;
             }
-            
+
         }
 
         private void Agregar_Click(object sender, EventArgs e)
@@ -101,14 +121,11 @@ namespace Productor_Consumidor
             try
             {
                 contador++; //en base a esto se crean productores y consumidores
-                timer1.Start();
                 insertar = true;
                 origen = Origen.Text;
                 destino = Destino.Text;     //datos para sql
                 cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
                 tamañocola = Convert.ToInt32(txtCola.Text);
-                WC.setOrigenyDestino(origen, destino);
-
             }
             catch (Exception)
             {
@@ -124,8 +141,6 @@ namespace Productor_Consumidor
             timer1.Start();
             origen = Origen.Text;
             destino = Destino.Text;     //datos para sql
-            cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccionKD
-            WC.setOrigenyDestino(origen, destino);
         }
 
         void actualizartabla()
@@ -134,17 +149,54 @@ namespace Productor_Consumidor
             /*si el numero de clics es menor o igual a la cantidad de workes entonces idc o idp 
             de lo contrario se debe de usar el i del for
              */
-            for (int i = 0; i < numeroC; i++)
+            try
             {
-                dtconsumers.Rows[i].Cells[0].Value = "Thread " + idC.ToString();
-                dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(idC);
-                dtconsumers.Rows[i].Cells[2].Value = WC.getRequestConsumidor(idC) + "/" + cantidad;
+                for (int i = 0; i < WP.numerocolaP(); i++)
+                {
+                    dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                    dtproducers.Rows[i].Cells[1].Value = WP.getEstadoProductor(i);
+                    dtproducers.Rows[i].Cells[2].Value = contadorp + "/" + cantidad;
+                }
+                for (int i = 0; i < WC.numerocolaC(); i++)
+                {
+                    dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                    dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(i);
+                    dtconsumers.Rows[i].Cells[2].Value = contadoraux + "/" + cantidad;
+                }
+                if (contadorp < cantidad)
+                {
+                    contadorp++;
+
+                }
+                if (contadoraux > 0)
+                {
+                    contadoraux--;
+                }
             }
-            for (int i = 0; i < numeroP; i++)
+            catch (Exception)
             {
-                dtproducers.Rows[i].Cells[0].Value = "Thread " + idP.ToString();
-                dtproducers.Rows[i].Cells[1].Value = WP.getEstadoProductor(idP);
-                dtproducers.Rows[i].Cells[2].Value = WP.getRequestProductores(idP) + "/" + cantidad;
+                if (numeroC < cantidadworkers)
+                {
+                    if (numeroP < cantidadworkers)
+                    {
+                        dtconsumers.Rows.Clear();
+                        dtproducers.Rows.Clear();
+                        tabla();
+                    }
+                    else
+                    {
+                        dtconsumers.Rows.Clear();
+                        dtproducers.Rows.Clear();
+                        tabla();
+                    }
+                }
+                else
+                {
+                    dtconsumers.Rows.Clear();
+                    dtproducers.Rows.Clear();
+                    tabla();
+                }
+                actualizartabla();
             }
         }
 
@@ -222,6 +274,36 @@ namespace Productor_Consumidor
             WP.IniciarProcesosProd(idP);
             robin.returntoQueue(idP, idC);
             WC.IniciarProcesosConsI(idC);
+        }
+
+        void manejo2()
+        {
+            robin.RoundRobinexe();
+            idP = robin.getIDp();
+            idC = robin.getIDc();
+            WP.sendCantidadProducers(cantidad, idP);
+            WC.sendRequestConsumer(cantidad, idC);
+            WC.agregarOrigenDestino(idC, origen, destino);
+            WP.IniciarProcesosProd(idP);
+            robin.returntoQueue(idP, idC);
+            WC.IniciarProcesosConsD(idC);
+        }
+
+        void tabla()
+        {
+            dtproducers.Rows.Clear();
+            dtconsumers.Rows.Clear();
+            dtproducers.Rows.Add(WP.numerocolaP());
+            dtconsumers.Rows.Add(WC.numerocolaC());
+            for (int i = 0; i < WP.numerocolaP(); i++)
+            {
+                //set estado consumidor
+                WP.setEstadoP(i, "Libre");
+            }
+            for (int i = 0; i < WC.numerocolaC(); i++)
+            {
+                WC.setEstadoC(i, "libre");
+            }
             actualizartabla();
         }
     }

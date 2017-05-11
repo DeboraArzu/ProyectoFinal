@@ -27,20 +27,20 @@ namespace Productor_Consumidor
             this.type = type;
         }
 
-        public int getId()
+        public int numerocolaC()
         {
-            return id;
+            return consumidores.Count();
+        }
+
+        public int numerocolaP()
+        {
+            return productores.Count();
         }
 
         public void setOrigenyDestino(string origen, string destino)
         {
             this.origen = origen;
             this.destino = destino;
-        }
-
-        public int getDisponible()
-        {
-            return used;
         }
 
         public void agregarConsumer(int id, bool libre, Queue<string> queue, object lockObj)
@@ -90,11 +90,6 @@ namespace Productor_Consumidor
             consumidores[id].setOrigenDestino(origen, destino);
         }
 
-        public bool setAvaible()
-        {
-            return working;
-        }
-
         public void IniciarProcesosProd(int id)
         {
             P = productores[id];
@@ -127,6 +122,7 @@ namespace Productor_Consumidor
         {
             return consumidores[id].getLibre();
         }
+
         public bool getLibreProductor(int id)
         {
             return productores[id].getLibre();
@@ -137,10 +133,21 @@ namespace Productor_Consumidor
             consumidores[id].setLibre(libre);
 
         }
+
         public void setLibreProductor(int id, bool libre)
         {
             productores[id].setLibre(libre);
 
+        }
+
+        public void setEstadoC(int id, string estado)
+        {
+            consumidores[id].estado = estado;
+        }
+
+        public void setEstadoP(int id, string estado)
+        {
+            productores[id].estado = estado;
         }
     }
 }
