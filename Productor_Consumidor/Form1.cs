@@ -35,7 +35,7 @@ namespace Productor_Consumidor
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            timer1.Interval = 500;
+            timer1.Interval = 200;
             Agregar.Enabled = false;
             btremove.Enabled = false;
         }
