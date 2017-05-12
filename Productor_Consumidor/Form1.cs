@@ -17,14 +17,14 @@ namespace Productor_Consumidor
         #region variables
         int numeroC, numeroP, idC, idP, tamañocola, cantidadworkers;
         int contador, totalinserts, totaldeletes, contador2 = 0;
-        int contadoraux, contadorp = 0;
+        int contadoraux, contadorp, unomas = 0;
         string destino, origen = "";
         bool insertar = true;
         Queue<Comandos> instrucciones = new Queue<Comandos>();
         Queue<string> queue = new Queue<string>();
         Object lockObj = new object();
         List<Consumer> consumidores = new List<Consumer>();
-        int cantidad = 0;
+        int cantidad, cantidadaux = 0;
         #endregion
 
         RoundRobin robin;
@@ -39,6 +39,7 @@ namespace Productor_Consumidor
         {
             try
             {
+                cantidadaux = cantidad;
                 insertar = false;
                 timer1.Start();
                 origen = Origen.Text;
@@ -49,7 +50,7 @@ namespace Productor_Consumidor
                 robin = new RoundRobin(contador2, contador2);
                 WC = new Worker(0, "Consumer", numeroC);
                 WP = new Worker(1, "Producer", numeroP);
-                contadoraux = tamañocola;
+                contadoraux = cantidad;
                 contadorp = 0;
                 for (int i = 0; i < contador2; i++)
                 {
@@ -88,7 +89,7 @@ namespace Productor_Consumidor
                 insertar = true;
                 origen = Origen.Text;
                 destino = Destino.Text;     //datos para sql
-                cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
+                unomas = cantidad = int.Parse(TxtCantidad.Text); //numero de veces que se ejecuta la instruccion
                 tamañocola = Convert.ToInt32(txtCola.Text);
 
                 timer1.Start();
@@ -96,13 +97,14 @@ namespace Productor_Consumidor
                 robin = new RoundRobin(contador, contador);
                 WC = new Worker(0, "Consumer", numeroC);
                 WP = new Worker(1, "Producer", numeroP);
-                contadoraux = cantidad;
+                cantidadaux = cantidad;
                 contadorp = 0;
                 for (int i = 0; i < contador; i++)
                 {
                     WP.agregarProducer(i, true, queue);
                     WC.agregarConsumer(i, true, queue, lockObj);
                     //comenzar a producir
+                    cola();
                     manejo();
                 }
                 contador = 0;
@@ -171,27 +173,56 @@ namespace Productor_Consumidor
              */
             try
             {
-                for (int i = 0; i < WP.numerocolaP(); i++)
+                if ((numeroC + numeroP) == cantidadworkers)
                 {
-                    dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
-                    dtproducers.Rows[i].Cells[1].Value = WP.getEstadoProductor(i);
-                    dtproducers.Rows[i].Cells[2].Value = contadorp + "/" + cantidad;
-                }
-                for (int i = 0; i < WC.numerocolaC(); i++)
-                {
-                    dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
-                    dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(i);
-                    dtconsumers.Rows[i].Cells[2].Value = contadoraux + "/" + cantidad;
-                }
-                if (contadorp < cantidad)
-                {
-                    contadorp++;
+                    for (int i = 0; i < numeroP; i++)
+                    {
+                        dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                        dtproducers.Rows[i].Cells[1].Value = WP.getEstadoProductor(i);
+                        dtproducers.Rows[i].Cells[2].Value = contadorp + "/" + cantidad;
+                    }
+                    for (int i = 0; i < numeroC; i++)
+                    {
+                        dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                        dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(i);
+                        dtconsumers.Rows[i].Cells[2].Value = contadoraux + "/" + cantidad;
+                    }
+                    if (contadorp < cantidad)
+                    {
+                        contadorp++;
 
+                    }
+                    if (contadoraux > 0 && (contadorp == cantidad))
+                    {
+                        contadoraux--;
+                    }
                 }
-                if (contadoraux > 0 && (contadorp == cantidad))
+                else
                 {
-                    contadoraux--;
+                    for (int i = 0; i < WP.numerocolaP(); i++)
+                    {
+                        dtproducers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                        dtproducers.Rows[i].Cells[1].Value = WP.getEstadoProductor(i);
+                        dtproducers.Rows[i].Cells[2].Value = contadorp + "/" + cantidad;
+                    }
+                    for (int i = 0; i < WC.numerocolaC(); i++)
+                    {
+                        dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
+                        dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(i);
+                        dtconsumers.Rows[i].Cells[2].Value = contadoraux + "/" + cantidad;
+                    }
+                    if (contadorp < cantidad)
+                    {
+                        contadorp++;
+
+                    }
+                    if (contadoraux > 0 && (contadorp == cantidad))
+                    {
+                        contadoraux--;
+
+                    }
                 }
+
             }
             catch (Exception)
             {
@@ -200,12 +231,12 @@ namespace Productor_Consumidor
                     dtconsumers.Rows.Clear();
                     dtproducers.Rows.Clear();
                     tabla();
+                    actualizartabla();
                 }
                 else
                 {
                     //poner en cola las intrucciones
                 }
-                actualizartabla();
             }
         }
 
@@ -277,13 +308,12 @@ namespace Productor_Consumidor
             robin.RoundRobinexe();
             idP = robin.getIDp();
             idC = robin.getIDc();
-            WP.sendCantidadProducers(cantidad, idP);
-            WC.sendRequestConsumer(cantidad, idC);
+            WP.sendCantidadProducers(unomas, idP);
+            WC.sendRequestConsumer(unomas, idC);
             WC.agregarOrigenDestino(idC, origen, destino);
             WP.IniciarProcesosProd(idP);
-            robin.returntoQueue(idP, idC);
             WC.IniciarProcesosConsI(idC);
-            cola();
+            robin.returntoQueue(idP, idC);
         }
 
         void manejo2()
@@ -320,18 +350,29 @@ namespace Productor_Consumidor
             }
             catch (Exception)
             {
-
-                throw;
+                for (int i = 0; i < numeroP; i++)
+                {
+                    //set estado consumidor
+                    WP.setEstadoP(i, "Libre");
+                }
+                for (int i = 0; i < numeroC; i++)
+                {
+                    WC.setEstadoC(i, "libre");
+                }
+                actualizartabla();
             }
 
         }
 
         void cola()
         {
-            while (cantidad > tamañocola)
+            while (cantidadaux > tamañocola)
             {
+                cantidad = tamañocola;
                 //dividir la produccion
                 //agregar producers y consumers
+                contadorp = 0;
+                contadoraux = tamañocola;
                 try
                 {
                     for (int i = 0; i < WP.numerocolaP(); i++)
@@ -345,7 +386,7 @@ namespace Productor_Consumidor
                         dtconsumers.Rows[i].Cells[0].Value = "Thread " + i.ToString();
                         dtconsumers.Rows[i].Cells[1].Value = WC.getEstadoConsumidor(i);
                         dtconsumers.Rows[i].Cells[2].Value = contadoraux + "/" + tamañocola;
-                        cantidad = cantidad - tamañocola;
+                        cantidadaux = cantidadaux - tamañocola;
                     }
                     if (contadorp < tamañocola)
                     {
